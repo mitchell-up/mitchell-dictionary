@@ -8,14 +8,14 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://rangex-mitchell.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/mitchell-dictionary',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: '@mitchell', // Usually your GitHub org/user name.
+  organizationName: 'mitchell', // Usually your GitHub org/user name.
   projectName: 'mitchell-dictionary', // Usually your repo name.
 
   onBrokenLinks: 'throw',
