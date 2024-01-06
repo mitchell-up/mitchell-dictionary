@@ -15,7 +15,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'mitchell', // Usually your GitHub org/user name.
+  organizationName: 'rangex-mitchell', // Usually your GitHub org/user name.
   projectName: 'mitchell-dictionary', // Usually your repo name.
 
   onBrokenLinks: 'throw',
