@@ -1,48 +1,18 @@
 ---
 sidebar_position: 1
-sidebar_label: 튜토리얼 소개
+sidebar_label: Mitchell Dictionary 소개
 ---
 
-# Tutorial Intro
+# Mitchell Dictionary 소개
+매일 들여봐야하는 문서의 양은 엄청납니다. 그것을 빠르게 이해하고 실무에서 적용해보는 것이 곧 퍼포먼스의 향상으로 이어지게 될 것입니다. 따라서 각 공식문서에서 제공하는 내용들을 빠르고 정확하게 이해하는 능력을 함양해야 합니다.
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## 왜 Dictionary를 정리하나요?
+보통은 개발문서의 필요한 부분에 대해서만 찾아서 실무에서 활용하게 됩니다. 첫 적용에 이러한 접근 방법은 매우 효율적입니다. 하지만 그 기능을 온전히 활용하려는 시점에서는 결국 문서를 정독할 수 밖에 없습니다. 그 과정에서 업계에서 사용되는 단어들에 대한 의미와 원리를 이해하지 못한다면 문서를 이해하는 속도가 느려지고 어쩌면 전혀 다르게 이해할 수도 있습니다. 특히 한국인에게 영어를 읽어내는 동안 단어가 의미하는게 이미 알고있는 개발용어가 아니라면 문장 속에서 이어지는 일반적인 단어인지 아니면 개발용어인지 문맥적으로 파악하는게 쉬운 일이 아닐 것입니다. 
 
-## Getting Started
+따라서 개발용어에 대해 정리하면서 그 개념과 의미를 이해한다면 개발 능력을 함양할 수 있는 기본기로 다져질 수 있기 때문에 `Mitchell Dictionary`를 정리합니다.
 
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+## 어떤 내용을 볼 수 있나요?
+다음의 내용들을 위주로 이 페이지에서 정리됩니다.
+- 개발용어의 뜻
+- 개발용어의 개념과 원리
+- 공식문서의 번역
