@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://rangex-mitchell.github.io/mitchell-dictionary/blog</id>
+    <title>Mitchell Dictionary Blog</title>
+    <updated>2024-01-06T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://rangex-mitchell.github.io/mitchell-dictionary/blog"/>
+    <subtitle>Mitchell Dictionary Blog</subtitle>
+    <icon>https://rangex-mitchell.github.io/mitchell-dictionary/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[효과적인 Emotion(CSS in JS) 사용을 위한 제언]]></title>
+        <id>https://rangex-mitchell.github.io/mitchell-dictionary/blog/2024/01/06/suggestion-for-effective-use-of-emotion</id>
+        <link href="https://rangex-mitchell.github.io/mitchell-dictionary/blog/2024/01/06/suggestion-for-effective-use-of-emotion"/>
+        <updated>2024-01-06T00:00:00.000Z</updated>
+        <author>
+            <name>Mitchell</name>
+            <uri>https://github.com/rangex-mitchell</uri>
+        </author>
+        <category label="Emotion" term="Emotion"/>
+        <category label="CSS in JS" term="CSS in JS"/>
+    </entry>
+</feed>
