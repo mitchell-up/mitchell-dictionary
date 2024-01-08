@@ -22,6 +22,11 @@ const sidebars: SidebarsConfig = {
       label: '개발 용어',
       items: ['terms/peer-dependency'],
     },
+    {
+      type: 'category',
+      label: '문서 번역',
+      items: ['translation/top-level-await'],
+    },
   ],
 };
 
