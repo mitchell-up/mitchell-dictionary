@@ -20,7 +20,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: '개발 용어',
-      items: ['terms/peer-dependency'],
+      items: ['terms/peer-dependency', 'terms/interpolation'],
     },
     {
       type: 'category',
