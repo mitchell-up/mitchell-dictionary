@@ -1,33 +1,45 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import dicionaryIcon from '@site/static/img/dictionary.png';
+import translationIcon from '@site/static/img/translation.png';
+import blogIcon from '@site/static/img/blog.png';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<'svg'>>;
+  src?: string;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: '현재 공사중입니다',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: '용어사전',
+    src: dicionaryIcon,
     description: (
       <>
-        웹 프론트엔드 기술기반을 위한 사전을 구축합니다. 간단한 용어의 정리부터 공식문서의 번역 및 요약, 실무적용 사례까지 다양한 글로 채워질 예정입니다.
+        프로그래밍, 소프트웨어 개발에서 사용되는 전문 용어들의 의미를 이해하고 정리합니다.
       </>
     ),
   },
-  // {
-  //   title: 'Focus on What Matters',
-  //   Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-  //   description: (
-  //     <>
-  //       Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-  //       ahead and move your docs into the <code>docs</code> directory.
-  //     </>
-  //   ),
-  // },
+  {
+    title: '문서번역',
+    src: translationIcon,
+    description: (
+      <>
+        번역본이 없는 공식문서들, 개발과 관련된 해외 아티클들을 한글로 번역합니다.
+      </>
+    ),
+  },
+  {
+    title: '기술 블로그',
+    src: blogIcon,
+    description: (
+      <>
+        기술과 관련된 분석, 생각 등을 정리하고, 트러블슈팅이나 실무 사용사례들을 공유합니다.
+      </>
+    ),
+  },
   // {
   //   title: 'Powered by React',
   //   Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
@@ -40,11 +52,12 @@ const FeatureList: FeatureItem[] = [
   // },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, Svg, src, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        {Svg ? <Svg className={styles.featureSvg} role="img" /> : <img className={styles.featureSvg} src={src} alt={title}/> }
+        
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

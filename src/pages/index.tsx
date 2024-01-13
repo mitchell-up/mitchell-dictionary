@@ -10,8 +10,8 @@ import styles from './index.module.css';
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
+    <header className={clsx('hero', styles.heroBanner)}>
+      <div className={styles.mainContainer}>
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
@@ -20,7 +20,12 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-              들어가기
+              용어사전 & 번역
+          </Link>
+          <Link
+            className="button button--primary button--lg"
+            to="/blog">
+              블로그
           </Link>
         </div>
       </div>
