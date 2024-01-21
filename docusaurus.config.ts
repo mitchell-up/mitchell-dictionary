@@ -35,17 +35,13 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/rangex-mitchell',
+          // editUrl: 'https://github.com/rangex-mitchell',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           blogSidebarTitle: '모든 포스트',
           blogSidebarCount: 'ALL',
-          editUrl: 'https://github.com/rangex-mitchell',
+          // editUrl: 'https://github.com/rangex-mitchell',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -55,6 +51,10 @@ const config: Config = {
   ],
 
   themeConfig: {
+    metadata: [
+      { name: 'keywords', content: 'frontend,blog,software,react,html,css,javascript,typescript,web,develop' },
+      { name: 'robots', content: 'all' },
+    ],
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
