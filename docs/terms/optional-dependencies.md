@@ -1,7 +1,7 @@
 # Optional Dependencies
-만약 의존성이 사용될 수 있지만, npm이 그 의존성을 찾지 못하거나 설치하는데 실패해도 게속 진행하길 원한다면, 그 의존성을 optionalDependencies 객체에 넣었을 겁니다. 이건 dependencies 객체와 같이 패키지이름과 버전, 또는 url의 맵 자료입니다. 그 둘의 차이는 빌드의 실패가 설치의 실패를 만들지 않는다는 것입니다. npm install --omit=optional을 실행하면 그 의존성이 설치되지 않을 것입니다.
+패키지를을 사용할 수 있지만, 그 패키지를 찾지 못하거나 설치하는데 실패해도 npm이 게속 진행하길 원한다면, 그 패키지를 `optionalDependencies` 넣을 수 있습니다. `optionalDependencies`는 `dependencies` 같이 패키지 이름과 버전 또는 url의 맵 자료형입니다. 그 둘의 차이는 빌드의 실패가 설치의 실패를 만들지 않는다는 것입니다. npm install --omit=optional을 실행하면 그 패키지가 설치되지 않습니다.
 
-의존성의 누락을 다루는건 여전히 당신 프로그램의 책임입니다. 예를 들어 보면:
+여전히 당신 프로그램은 패키지의 누락을 다룰 책임이 있습니다. 예를 들어 다음과 같습니다:
 ```js
 try {
   var foo = require("foo");
@@ -9,6 +9,7 @@ try {
 } catch (er) {
   foo = null;
 }
+// foo 패키지가 올바르지 않다면, foo가 없다고 판단합니다.
 if (notGoodFooVersion(fooVersion)) {
   foo = null;
 }
@@ -19,4 +20,9 @@ if (foo) {
   foo.doFooThings();
 }
 ```
-optionalDependencies의 엔트리는 같은 이름의 dependencies에 있는 엔트리를 덮어씌울 것이며, 이건 보통 한 장소에 놓은 최고의 방법입니다.
+`optionalDependencies`의 항목은 같은 이름의 `dependencies`에 있는 항목을 덮어씌웁니다. 그래서 한 장소에 명시하는 것이 보통 최고의 방법입니다.
+
+### 실사용례
+1. 특정 OS에서만 샤용되는 패키가 있는 경우
+2. 기존 기능을 강화하는 모듈이나 라이브러리가 있는 경우
+3. 대체 가능한 여러 패키지 중 하나를 선택적으로 사용하는 경우
