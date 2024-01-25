@@ -79,3 +79,7 @@ import("/my-module.js").then((mod2) => {
   console.log(mod === mod2); // false
 });
 ```
+
+:::warning
+경고: `then()`이라는 함수를 모듈로부터 내보내지마세요. 정적 임포트와 동적 임포트에서 모듈이 다르게 동작하게 되는 원인이 됩니다.
+:::
