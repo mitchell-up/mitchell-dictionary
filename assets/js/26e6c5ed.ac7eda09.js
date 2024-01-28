@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[204],{8867:i=>{i.exports=JSON.parse('[{"label":"Emotion","permalink":"/mitchell-dictionary/blog/tags/emotion","count":2},{"label":"CSS in JS","permalink":"/mitchell-dictionary/blog/tags/css-in-js","count":2}]')}}]);
