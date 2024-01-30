@@ -4,7 +4,7 @@
         <title>Mitchell Dictionary Blog</title>
         <link>https://rangex-mitchell.github.io/mitchell-dictionary/blog</link>
         <description>Mitchell Dictionary Blog</description>
-        <lastBuildDate>Sun, 28 Jan 2024 18:53:30 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 28 Jan 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ko</language>
@@ -12,8 +12,8 @@
             <title><![CDATA[Emotion이 CSS를 생성하는 방법]]></title>
             <link>https://rangex-mitchell.github.io/mitchell-dictionary/blog/emotion/emotion-mechanism</link>
             <guid>https://rangex-mitchell.github.io/mitchell-dictionary/blog/emotion/emotion-mechanism</guid>
-            <pubDate>Sun, 28 Jan 2024 18:53:30 GMT</pubDate>
-            <description><![CDATA[대표적인 CSS in JS 라이브러리인 Emotion의 소스코드를 분석하면서 동작원리를 이해해보겠습니다. 동작원리를 이해하게 되면 장점을 극대화하고, 단점을 최소화하여 라이브러리를 효과적으로 쓸 수 있는 방법을 발견해낼 수 있습니다. 이 글에서는 @emotion/react와 cssProp를 중심으로 설명합니다.]]></description>
+            <pubDate>Sun, 28 Jan 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[css in js 라이브러리 emotion의 동작 원리 및 메커니즘]]></description>
             <content:encoded><![CDATA[<p>대표적인 CSS in JS 라이브러리인 Emotion의 소스코드를 분석하면서 동작원리를 이해해보겠습니다. 동작원리를 이해하게 되면 장점을 극대화하고, 단점을 최소화하여 라이브러리를 효과적으로 쓸 수 있는 방법을 발견해낼 수 있습니다. 이 글에서는 <code>@emotion/react</code>와 cssProp를 중심으로 설명합니다.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="주의깊게-볼-패키지">주의깊게 볼 패키지<a href="https://rangex-mitchell.github.io/mitchell-dictionary/blog/emotion/emotion-mechanism#%EC%A3%BC%EC%9D%98%EA%B9%8A%EA%B2%8C-%EB%B3%BC-%ED%8C%A8%ED%82%A4%EC%A7%80" class="hash-link" aria-label="주의깊게 볼 패키지에 대한 직접 링크" title="주의깊게 볼 패키지에 대한 직접 링크">​</a></h3>
 <p>Emotion은 스타일을 생성하고 최적화하기 위한 많은 패키지들을 가지고 있습니다. 그 중 전체적인 흐름을 이해하기 위해서 다음 패키지들의 코드를 중점적으로 살펴보게 됩니다.<br>
@@ -150,8 +150,9 @@
 <li>CSSRule은 CSSStyleSheet로 스타일이 주입된다.</li>
 </ol>
 <p>그 과정에서 만들어지는 className이 본래의 컴포넌트에 추가되면서 최종적으로 스타일이 입혀진 컴포넌트가 렌더링되도록 해줍니다.</p>]]></content:encoded>
-            <category>Emotion</category>
-            <category>CSS in JS</category>
+            <category>emotion</category>
+            <category>css</category>
+            <category>css in js</category>
         </item>
         <item>
             <title><![CDATA[효과적인 Emotion(CSS in JS) 사용을 위한 제언]]></title>
