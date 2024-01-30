@@ -1,3 +1,9 @@
+---
+title: Polymorphic React Component
+description: 다형적 리액트 컴포넌트 만들기 번역
+keywords: [polymorphic, react, javascript, typescript, generic]
+---
+
 # Polymorphic React Component
 
 >**다형성(Polymorphism)은** 어떤 객체의 속성이나 기능이 상황에 따라 여러가지 형태를 가질 수 있는 성질을 의미합니다.

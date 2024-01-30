@@ -1,3 +1,9 @@
+---
+title: Optional Dependencies
+description: Optional Dependency에 대한 정의
+keywords: [depenency, optional dependency, npm, package]
+---
+
 # Optional Dependencies
 패키지를을 사용할 수 있지만, 그 패키지를 찾지 못하거나 설치하는데 실패해도 npm이 게속 진행하길 원한다면, 그 패키지를 `optionalDependencies` 넣을 수 있습니다. `optionalDependencies`는 `dependencies` 같이 패키지 이름과 버전 또는 url의 맵 자료형입니다. 그 둘의 차이는 빌드의 실패가 설치의 실패를 만들지 않는다는 것입니다. npm install --omit=optional을 실행하면 그 패키지가 설치되지 않습니다.
 

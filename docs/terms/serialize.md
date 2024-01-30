@@ -1,3 +1,9 @@
+---
+title: Serialize
+description: Serialize의 정의
+keywords: [serialize, data, structure]
+---
+
 # Serialize
 > 직렬화는 컴퓨터 과학의 데이터 스토리지 문맥에서 데이터 구조나 오브젝트 상태를 동일하거나 다른 컴퓨터 환경에 저장하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다. - 위키백과
 

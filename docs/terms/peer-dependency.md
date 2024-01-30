@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: Peer Dependency
+description: Peer dependvy에 대한 정의 번역
+keywords: [peer dependency, dependency, npm, package, javascript]
 ---
 
 # Peer Dependency

@@ -1,3 +1,9 @@
+---
+title: import()
+description: import의 정의, mdn 문서번역
+keywords: [import, mdn, translation, dynamic import, static import]
+---
+
 # import()
 
 :::info

@@ -1,3 +1,9 @@
+---
+title: Export
+description: Export의 종류와 쓰임에 대한 정리
+keywords: [export, named export, default export, javascript]
+---
+
 # Export
 `export`는 JavaScript에서 모듈을 내보낼 때 사용하는 키워드입니다. 어떤 모듈을 `import` 하기 위해서는 모듈을 `export` 하는 것이 선행되야합니다. `export`는 다음의 특징을 가지고 있습니다.
 - 함수, 객체, 원시 값을 내보낼 수 있다.

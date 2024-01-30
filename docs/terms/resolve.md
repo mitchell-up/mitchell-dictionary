@@ -1,3 +1,9 @@
+---
+title: Resolve
+description: 소프트웨어에서의 Resolve의 의미
+keywords: [resolve]
+---
+
 # Resolve
 각종 문서에서 자주볼 수 있는 `resolve`라는 단어는 다양하게 해석될 여지가 있어 문서를 읽어가면서 쉽게 이해하기 어려웠는데요, 실제 사례와 함께 의미를 정리합니다.
 

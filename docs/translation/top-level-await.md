@@ -1,4 +1,10 @@
-# Top level await
+---
+title: Top Level Await
+description: Top Level Await에 대한 mdn 문서번역
+keywords: [mdn, top level await]
+---
+
+# Top Level Await
 
 :::info
 mdn 문서의 JavaScript Modules 내용 중 'Top level await'의 내용을 번역하였습니다.

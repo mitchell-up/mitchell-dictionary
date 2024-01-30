@@ -1,5 +1,8 @@
 ---
 sidebar_position: 2
+title: Interpolation
+description: interpolation 용어의 개념
+keywords: [interpolation]
 ---
 
 # Interpolation

@@ -1,11 +1,16 @@
 ---
 authors: mitchell
 title: Emotion이 CSS를 생성하는 방법
-tags: [Emotion, CSS in JS]
+date: 2024-01-28
+tags: [emotion, css, css in js]
+description: css in js 라이브러리 emotion의 동작 원리 및 메커니즘
+keywords: [css, css in js, emotion, styled-component, javascript, typescript, web, html, 이모션]
 ---
 
 # Emotion이 CSS를 생성하는 방법
 대표적인 CSS in JS 라이브러리인 Emotion의 소스코드를 분석하면서 동작원리를 이해해보겠습니다. 동작원리를 이해하게 되면 장점을 극대화하고, 단점을 최소화하여 라이브러리를 효과적으로 쓸 수 있는 방법을 발견해낼 수 있습니다. 이 글에서는 `@emotion/react`와 cssProp를 중심으로 설명합니다.
+
+<!--truncate-->
 
 ### 주의깊게 볼 패키지
 Emotion은 스타일을 생성하고 최적화하기 위한 많은 패키지들을 가지고 있습니다. 그 중 전체적인 흐름을 이해하기 위해서 다음 패키지들의 코드를 중점적으로 살펴보게 됩니다.   

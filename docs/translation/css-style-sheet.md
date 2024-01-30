@@ -1,3 +1,9 @@
+---
+title: CSSStyleSheet
+description: CSSStyleSheet 한글 번역
+keywords: [css, style, sheet, mdn, translation]
+---
+
 # CSSStyleSheet
 :::info
 mdn 문서의 'CSSStyleSheet'를 번역하였습니다.<br/>

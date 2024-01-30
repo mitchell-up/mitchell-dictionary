@@ -1,3 +1,9 @@
+---
+title: Blocking, Non-Blocking
+description: Blocking, Non-Blocking, 동기, 비동기에 대한 정리
+keywords: [블로킹, 논블로킹, 동기, 비동기, blocking, non-blocking, javascript]
+---
+
 # Blocking, Non-Blocking
 블로킹과 논블로킹의 개념을 이해하며, 같은 의미로 오해하기 쉬운 동기와 비동기의 개념도 간단하게 정리하겠습니다.
 두 개념의 차이는 블로킹, 논블로킹은 **작업의 흐름이 막히는지에** 대한 개념이고 반면에 동기와 비동기는 작업의 흐름이 **순차적인지** 대한 개념입니다.
