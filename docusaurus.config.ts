@@ -8,14 +8,14 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://rangex-mitchell.github.io/',
+  url: 'https://mitchell-up.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/mitchell-dictionary',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'rangex-mitchell', // Usually your GitHub org/user name.
+  organizationName: 'mitchell-up', // Usually your GitHub org/user name.
   projectName: 'mitchell-dictionary', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -35,13 +35,25 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // editUrl: 'https://github.com/rangex-mitchell',
+          // editUrl: 'https://github.com/mitchell-up',
         },
         blog: {
           showReadingTime: true,
           blogSidebarTitle: '모든 포스트',
           blogSidebarCount: 'ALL',
-          // editUrl: 'https://github.com/rangex-mitchell',
+          truncateMarker: /<!--*truncate*-->/,
+          feedOptions: {
+            type: 'all',
+            createFeedItems: async (params) => {
+              const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+              return defaultCreateFeedItems({
+                // keep only the 10 most recent blog posts in the feed
+                blogPosts: blogPosts.filter((item, index) => index < 3),
+                ...rest,
+              });
+            }
+          }
+          // editUrl: 'https://github.com/mitchell-up',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -76,7 +88,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/rangex-mitchell',
+          href: 'https://github.com/mitchell-up',
           label: 'GitHub',
           position: 'right',
         },
