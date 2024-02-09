@@ -1,0 +1,49 @@
+---
+authors: mitchell
+title: SocketIO를 활용한 리액트 실시간통신 테스팅
+date: 2024-02-09
+tags: [socket, websocket, javascript, react, typescript, socket.io, jest, vitest, testing-library]
+description: SocketIO를 활용하여 리액트에서 실시간 통신 유닛, 통합테스트를 작성하는 방법
+keywords: [socket, websocket, javascript, react, typescript, socket.io, jest, vitest, testing-library]
+enableComments: true
+---
+# SocketIO를 활용한 리액트 실시간통신 테스팅
+
+## 들어가기 전에
+컴포넌트 **단위 테스트**를 작성할 때의 주요 관심사가 무엇일까요? 서버나 외부에서 데이터가 정상적으로 전달되었다는 것을 가정하고, UI가 의도대로 렌더링되는가에 관심을 둡니다.
+
+그런데 통합테스트 단계에서는 그러한 데이터가 전달되는 상황을 Mocking 해야할 필요가 있습니다. 그래서 [msw](https://mswjs.io/)와 같은 라이브러리를 활용하여 하여 테스트를 서버로부터 오는 단방향 통신에 대해 Mocking 하여 통합테스트를 마무리할 수 있게 됩니다.
+
+그러나 msw에서는 WebSocket과 같은 양방향 통신에 대한 지원이 존재하지 않아 채팅과 같은 실시간서비스의 통합테스팅을 작성하는데는 적합하지 않습니다. 따라서 Socket.IO가 제공하는 테스팅 예제를 활용하여 서버와의 양방향 통신을 Mocking 할 수 있는 방법을 공유해보겠습니다.
+
+### 선수지식
+이 글에서 사용하는 기술들에 대한 상세한 사용법에 대해서는 설명하지 않습니다.
+- React
+- Socket.IO
+- Vitest, testing-library
+
+:::warning
+이 포스트에서 제공하는 방식은 실시간 통신을 Socket.IO 라이브러리를 활용하는 경우로 한정하여 작동합니다.  
+[Socket.IO 예제보기](https://socket.io/docs/v4/testing/)
+:::
+
+예시로 아주 간단한 채팅서비스를 만들어보겠습니다. 단위테스트는 생략하고 통합테스트 작성 후 컴포넌트 구현까지 진행해보겠습니다. 기능은 다음과 같습니다.
+1. 상대방이 채팅을 보내면 내가 확인 할 수 있다.
+2. 내가 채팅을 보내면 상대방이 답장을 해준다.
+
+---
+
+## 테스트 케이스
+간단한 채팅서비스 답게 케이스도 매우 간단합니다.
+```tsx
+describe('<Chat/>', () => {
+  test('채팅을 시작하면 접속되었습니다. 텍스트가 보인다.', () => {})
+
+  test('상대방이 채팅을 보내면 내용이 보인다.', () => {})
+
+  test('"안녕"이라고 보내면 "나도 안녕"이라고 대답이 온다.', () => {})
+})
+```
+
+---
+
