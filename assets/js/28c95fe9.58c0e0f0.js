@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[4404],{8014:e=>{e.exports=JSON.parse('{"label":"websocket","permalink":"/mitchell-dictionary/blog/tags/websocket","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);

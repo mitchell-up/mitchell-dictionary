@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[1837],{3953:l=>{l.exports=JSON.parse('{"label":"socket.io","permalink":"/mitchell-dictionary/blog/tags/socket-io","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
