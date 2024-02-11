@@ -25,6 +25,8 @@ expect(styles.color).toBe(palette.white)
 
 그러나 테스트는 실패하게 되는데요. 왜냐하면 브라우저에서는 주어진 색상을 RGB로 변환하여 화면에 렌더링하기 때문입니다. 따라서 선언한 값(`palette.white`)과 계산된 값(`styles.color`)이 다르다는 테스트 결과를 받게됩니다.
 
+<!--truncate-->
+
 ```
 Expected: "#FFFFFF"
 Received: "rgb(255, 255, 255)"
