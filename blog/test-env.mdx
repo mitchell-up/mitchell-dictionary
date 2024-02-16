@@ -1,0 +1,48 @@
+---
+authors: mitchell
+title: jest가 CI에서 작동하지 않을 때
+date: 2024-02-16
+tags: [jest, env, ci/cd, test]
+description: jset를 CI에서 정상적으로 작동시키는 방법
+keywords: [jest, env, ci/cd, test, react, testing-library, github, github actions]
+enableComments: true
+---
+
+# jest가 CI에서 작동하지 않을 때
+개발환경 속에서 테스트하고, 빌드해보고 확인까지 다 해보았는데 CI에서 빌드 상의 에러가 발생하였습니다.
+
+다름 아닌 테스트가 실패하였다는 내용이였는데요. 아래와 같은 메시지와 함께 실패합니다.
+
+```
+act(...) is not supported in production builds of React.
+```
+
+testing-library의 `act`는 Production 환경에서는 지원되지 않는다는 메시지입니다.
+
+## 왜 Production에서는 지원되지 않을까?
+Production용 빌드에서는 `package.json`의 `devDependencies`에 명시된 패키지는 모두 제외하고 빌드하게 됩니다. 실제 프로덕션용 코드에서는 필요가 없는 코드이기 때문입니다. 그렇기 때문에 환경변수 `NODE_ENV`가 Production인 경우 의도치 않게 테스트 환경에서 필요한 것들이 누락될 가능성이 있을 것으로 예측됩니다.
+
+그래서 [jest]((https://jestjs.io/docs/environment-variables))에서는 별도의 설정이 없다면 `NODE_ENV`를 'test'로 설정해 테스트를 돌리게 됩니다.  
+
+
+## 어떻게 해결해야 하나요?
+위에서 바로 말했듯이 별도의 설정이 없다면, `NODE_ENV`는 'test'이기 때문에 에러가 발생하지 않습니다. 그러나 여러 실무에서는 다양한 목적(개발, QA, 프로덕션)에 따라 환경을 분리하고 그에 맞는 모드 설정을 가지고 있습니다.
+
+저희도 그에 맞는 환경이 설정되어 있고, CI Shell 안에서 다음과 같은 메시지도 확인되었습니다.
+```
+#16 2.479 devDependencies: skipped because NODE_ENV is set to production
+```
+
+따라서 테스트가 돌아가는 환경 안에서만은 `NODE_ENV`를 'test'로 강제하도록 설정하면 됩니다. 아래와 같이 `package.json` 파일의 "test" 커맨드안에서 명시해주면 간단하게 해결할 수 있습니다.
+
+```json title="package.json"
+{
+  ...
+  "scripts": {
+    ...
+    "test": "NODE_ENV=test jest",
+    ...
+  }
+  ...
+}
+```
