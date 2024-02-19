@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[9054],{8095:l=>{l.exports=JSON.parse('{"label":"env","permalink":"/mitchell-dictionary/blog/tags/env","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);

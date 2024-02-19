@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[5050],{3985:t=>{t.exports=JSON.parse('{"permalink":"/mitchell-dictionary/blog/tags/vitest","page":1,"postsPerPage":10,"totalPages":1,"totalCount":3,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

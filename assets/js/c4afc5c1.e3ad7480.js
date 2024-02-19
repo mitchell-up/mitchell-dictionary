@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[572],{2965:t=>{t.exports=JSON.parse('{"label":"test","permalink":"/mitchell-dictionary/blog/tags/test","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
