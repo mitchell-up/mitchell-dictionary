@@ -22,7 +22,7 @@ testing-library의 `act`는 Production 환경에서는 지원되지 않는다는
 ## 왜 Production에서는 지원되지 않을까?
 Production용 빌드에서는 `package.json`의 `devDependencies`에 명시된 패키지는 모두 제외하고 빌드하게 됩니다. 실제 프로덕션용 코드에서는 필요가 없는 코드이기 때문입니다. 그렇기 때문에 환경변수 `NODE_ENV`가 Production인 경우 의도치 않게 테스트 환경에서 필요한 것들이 누락될 가능성이 있을 것으로 예측됩니다.
 
-그래서 [jest]((https://jestjs.io/docs/environment-variables))에서는 별도의 설정이 없다면 `NODE_ENV`를 'test'로 설정해 테스트를 돌리게 됩니다.  
+그래서 [jest](https://jestjs.io/docs/environment-variables)에서는 별도의 설정이 없다면 `NODE_ENV`를 'test'로 설정해 테스트를 돌리게 됩니다.  
 
 
 ## 어떻게 해결해야 하나요?
