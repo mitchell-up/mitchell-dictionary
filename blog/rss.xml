@@ -4,10 +4,49 @@
         <title>Mitchell Dictionary Blog</title>
         <link>https://mitchell-up.github.io/mitchell-dictionary/blog</link>
         <description>Mitchell Dictionary Blog</description>
-        <lastBuildDate>Tue, 20 Feb 2024 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 22 Feb 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ko</language>
+        <item>
+            <title><![CDATA[책리뷰 효율적인 리눅스 명령어 사용의 기술]]></title>
+            <link>https://mitchell-up.github.io/mitchell-dictionary/blog/linux-cli-book-review</link>
+            <guid>https://mitchell-up.github.io/mitchell-dictionary/blog/linux-cli-book-review</guid>
+            <pubDate>Thu, 22 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[효율적인 리눅스 명령어 사용의 기술 책에 대한 리뷰, 후기]]></description>
+            <content:encoded><![CDATA[<p>비전공, 독학개발로 시작하여 2년까지는 프론트엔드 개발자로서 리눅스 커맨드라인에 대한 지식 하나 없이도 큰 문제가 없이 주니어개발자 생활을 해왔다고 생각했었습니다. 어언 3년차로 접어들고 있는 지금 devServer, 빌드, CI/CD 등 상세히 조작하고 알아가야하는 영역이 넓어지면서, 셸, 커맨드라인에 대한 이해가 필요해지고 있다고 느끼고 있었습니다.</p>
+<p>때마침 운좋게도 책 리뷰어로 선정되어 리눅스 커맨드라인에 대한 책 리뷰를 하게 되는 기회를 얻어 이 글을 작성하게 되었습니다.</p>
+<hr>
+<div style="width:450px;margin:0 auto"><p><img loading="lazy" alt="책 이미지" src="https://mitchell-up.github.io/mitchell-dictionary/assets/images/book-9f7baccbec094377418a396472e11adc.jpeg" width="1280" height="1648" class="img_ev3q"></p></div>
+<ul>
+<li>제목: <strong>Efficient Linux at the Command Line</strong> 효율적인 리눅스 명령어 사용의 기술</li>
+<li>저자: 대니얼 J. 바렛</li>
+<li>옮긴이: 심효섭</li>
+<li>출판사: 길벗</li>
+</ul>
+<hr>
+<p>이 책은 리눅스 커맨드라인 활용서로 자주쓰고 유용한 커맨드라인에 대한 예시와 함께 작동방식을 차근차근 따라갈 수 있도록 작성되어 있습니다. 책의 분량 또한 많지 않아 기본적인 지식이 있는 상태라면, 한번 쭉 보셔도 오랜 시간이 걸리지 않으면서 익힐 수 있습니다. 시간이 많지 않다면, 목차를 참고하여 필요한 부분만 따라하셔도 빠르게 익히고 사용할 수 있게끔 활용방법을 잘 알려주고 줍니다.</p>
+<p>사실 주로 브라우저와 함께 노는 프론트엔드 개발자에게는 (심지어 비전공이라 마주칠일이 없었다면) 대부분의 프로그램들이 GUI를 제공하고 있기 때문에 커맨드라인을 가지고 여러 실무적인 일을 접할 때가 많지는 않습니다. 그러나 연차가 쌓이고, 프로젝트를 직접 빌드하고 배포하는 것에 관여를 하기 시작하면서부터 서버, OS에 대한 이해를 조금씩 더 필요로 하게 되며 자연스럽게 셸과 커맨드라인을 만지작 거리게 될 수 밖에 없는데요.</p>
+<p>프론트엔드 개발자 입장에서 배운다고 해도 실제로 많이는 쓰지 않기 때문에 무엇을 익혀서 쓸지 애매한 부분이 많습니다. 사실 이 책의 활용부분에서도 적극적으로 사용될 부분으로 보이진 않습니다. (현재의 제 기술수준으로 봤을 떄는요.)</p>
+<p>따라서 '효율적인 리눅스 명령어의 사용의 기술' 책을 프론트엔드 개발자 입장에서 더 효율적으로 익히고 학습하는 방법을 공유해드리고자 합니다.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="이-책을-효율적으로-읽는-법">이 책을 효율적으로 읽는 법<a href="https://mitchell-up.github.io/mitchell-dictionary/blog/linux-cli-book-review#%EC%9D%B4-%EC%B1%85%EC%9D%84-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%9D%BD%EB%8A%94-%EB%B2%95" class="hash-link" aria-label="이 책을 효율적으로 읽는 법에 대한 직접 링크" title="이 책을 효율적으로 읽는 법에 대한 직접 링크">​</a></h2>
+<p>읽는 법이라고는 했지만, 실용서이기 때문에 읽기만 하면 의미는 없습니다. 책을 펴고 컴퓨터도 킨 다음 셸 하나를 띄워놓고 시작하는게 좋습니다.</p>
+<p>이 책의 서두에서는 이 책은 기본서가 아니니 기본에 대한 별도의 서적을 추천도 해줍니다. 그러나 바쁜 현대인인 저희에게는 여러 책을 섭렵하여 다시 돌아오는 것은 어려운 선택인 것 같습니다.</p>
+<p>따라서 커맨드라인의 기초지식이 아예 없다면, <em>1부 핵심 개념</em>을 반드시 생략없이 학습하는 것을 추천합니다. 그리고 다음의 방법으로 책을 독파해보세요.</p>
+<ol>
+<li>개념에 대한 설명이 간략하게 매 장마다 되어 있습니다. 꼭 읽어주세요.</li>
+<li>셸에 커맨드를 작성하면서 동작하는 모습을 확인하세요.</li>
+<li>책에 설명이 없거나 모르는 부분은 구글링하거나, GPT를 통해서 빠르게 답변을 얻으세요.</li>
+</ol>
+<p>리눅스 커맨드라인에 지식이 전무했던 제 입장에서 어디서부터 시작해서 어디까지 공부해야할지 모를 때, 이 책에 나와 있는 1부의 커맨드라인만 익혔는데도, 충분히 제 Mac 컴퓨터 위에서 효율적인 작업이 가능했습니다.</p>
+<p>특히 이전에는 알아들을 수 없었던 CI/CD의 명령어들과 셸 위에 나타나는 로그들을 조금더 친숙하게 해석할 수 있다는 점에서 책을 읽고 있을 때보다 읽은 후에 더 가치를 느낄 수 있었습니다.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="정리">정리<a href="https://mitchell-up.github.io/mitchell-dictionary/blog/linux-cli-book-review#%EC%A0%95%EB%A6%AC" class="hash-link" aria-label="정리에 대한 직접 링크" title="정리에 대한 직접 링크">​</a></h2>
+<p>이 책은 활용서로 나왔지만, 커맨드라인에 대한 필요성을 아직 느끼지 못했거나 필요하지만 방향을 잡지 못할 때 1부의 내용을 위에 추천한 방법으로 독파하면서 빠르게 커맨드라인에 대한 지식을 쌓을 수 있는 기본서로도 활용할 수 있다고 생각합니다.</p>
+<p>1부의 내용을 익히고 커맨드라인에 대한 기본이 쌓였다면, <strong>2부에서는 특히 6장 부모 프로세스와 자식 프로세스, 그리고 환경</strong> 부분 <em>7장 명령을 실행하는 열한 한지 방법</em> 이 두개까지 읽어야 기본이 더 탄탄하다고 느껴집니다.</p>
+<p>적당히 기능 구현에 대해 큰 문제를 느끼지 않고, 다음 단계로 나아가야 하는 프론트엔드 개발자분들께 빌드와 배포에 대해 접근하시면서 커맨드라인에 대해서도 이 책을 통해 익혀보시는 것을 추천드립니다.</p>]]></content:encoded>
+            <category>linux</category>
+            <category>cli</category>
+        </item>
         <item>
             <title><![CDATA[Vue 2(Vue CLI)에서 Vite로 갈아타기]]></title>
             <link>https://mitchell-up.github.io/mitchell-dictionary/blog/vue-to-vite</link>
@@ -200,30 +239,6 @@
             <category>react</category>
             <category>testing</category>
             <category>msw</category>
-        </item>
-        <item>
-            <title><![CDATA[jest가 CI에서 작동하지 않을 때]]></title>
-            <link>https://mitchell-up.github.io/mitchell-dictionary/blog/test-env</link>
-            <guid>https://mitchell-up.github.io/mitchell-dictionary/blog/test-env</guid>
-            <pubDate>Fri, 16 Feb 2024 00:00:00 GMT</pubDate>
-            <description><![CDATA[jset를 CI에서 정상적으로 작동시키는 방법]]></description>
-            <content:encoded><![CDATA[<p>개발환경 속에서 테스트하고, 빌드해보고 확인까지 다 해보았는데 CI에서 빌드 상의 에러가 발생하였습니다.</p>
-<p>다름 아닌 테스트가 실패하였다는 내용이였는데요. 아래와 같은 메시지와 함께 실패합니다.</p>
-<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">act(...) is not supported in production builds of React.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<p>testing-library의 <code>act</code>는 Production 환경에서는 지원되지 않는다는 메시지입니다.</p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="왜-production에서는-지원되지-않을까">왜 Production에서는 지원되지 않을까?<a href="https://mitchell-up.github.io/mitchell-dictionary/blog/test-env#%EC%99%9C-production%EC%97%90%EC%84%9C%EB%8A%94-%EC%A7%80%EC%9B%90%EB%90%98%EC%A7%80-%EC%95%8A%EC%9D%84%EA%B9%8C" class="hash-link" aria-label="왜 Production에서는 지원되지 않을까?에 대한 직접 링크" title="왜 Production에서는 지원되지 않을까?에 대한 직접 링크">​</a></h2>
-<p>Production용 빌드에서는 <code>package.json</code>의 <code>devDependencies</code>에 명시된 패키지는 모두 제외하고 빌드하게 됩니다. 실제 프로덕션용 코드에서는 필요가 없는 코드이기 때문입니다. 그렇기 때문에 환경변수 <code>NODE_ENV</code>가 Production인 경우 의도치 않게 테스트 환경에서 필요한 것들이 누락될 가능성이 있을 것으로 예측됩니다.</p>
-<p>그래서 <a href="https://jestjs.io/docs/environment-variables" target="_blank" rel="noopener noreferrer">jest</a>에서는 별도의 설정이 없다면 <code>NODE_ENV</code>를 'test'로 설정해 테스트를 돌리게 됩니다.</p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="어떻게-해결해야-하나요">어떻게 해결해야 하나요?<a href="https://mitchell-up.github.io/mitchell-dictionary/blog/test-env#%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%95%B4%EC%95%BC-%ED%95%98%EB%82%98%EC%9A%94" class="hash-link" aria-label="어떻게 해결해야 하나요?에 대한 직접 링크" title="어떻게 해결해야 하나요?에 대한 직접 링크">​</a></h2>
-<p>위에서 바로 말했듯이 별도의 설정이 없다면, <code>NODE_ENV</code>는 'test'이기 때문에 에러가 발생하지 않습니다. 그러나 여러 실무에서는 다양한 목적(개발, QA, 프로덕션)에 따라 환경을 분리하고 그에 맞는 모드 설정을 가지고 있습니다.</p>
-<p>저희도 그에 맞는 환경이 설정되어 있고, CI Shell 안에서 다음과 같은 메시지도 확인되었습니다.</p>
-<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">#16 2.479 devDependencies: skipped because NODE_ENV is set to production</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<p>따라서 테스트가 돌아가는 환경 안에서만은 <code>NODE_ENV</code>를 'test'로 강제하도록 설정하면 됩니다. 아래와 같이 <code>package.json</code> 파일의 "test" 커맨드안에서 명시해주면 간단하게 해결할 수 있습니다.</p>
-<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockTitle_Ktv7">package.json</div><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">{</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  ...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  "scripts": {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "test": "NODE_ENV=test jest",</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  ...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>]]></content:encoded>
-            <category>jest</category>
-            <category>env</category>
-            <category>ci/cd</category>
-            <category>test</category>
         </item>
     </channel>
 </rss>
