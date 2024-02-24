@@ -17,7 +17,7 @@
             <content:encoded><![CDATA[<p>비전공, 독학개발로 시작하여 2년까지는 프론트엔드 개발자로서 리눅스 커맨드라인에 대한 지식 하나 없이도 큰 문제가 없이 주니어개발자 생활을 해왔다고 생각했었습니다. 어언 3년차로 접어들고 있는 지금 devServer, 빌드, CI/CD 등 상세히 조작하고 알아가야하는 영역이 넓어지면서, 셸, 커맨드라인에 대한 이해가 필요해지고 있다고 느끼고 있었습니다.</p>
 <p>때마침 운좋게도 책 리뷰어로 선정되어 리눅스 커맨드라인에 대한 책 리뷰를 하게 되는 기회를 얻어 이 글을 작성하게 되었습니다.</p>
 <hr>
-<div style="width:450px;margin:0 auto"><p><img loading="lazy" alt="책 이미지" src="https://mitchell-up.github.io/mitchell-dictionary/assets/images/book-9f7baccbec094377418a396472e11adc.jpeg" width="1280" height="1648" class="img_ev3q"></p></div>
+<div style="max-width:450px;margin:0 auto"><p><img loading="lazy" alt="책 이미지" src="https://mitchell-up.github.io/mitchell-dictionary/assets/images/book-9f7baccbec094377418a396472e11adc.jpeg" width="1280" height="1648" class="img_ev3q"></p></div>
 <ul>
 <li>제목: <strong>Efficient Linux at the Command Line</strong> 효율적인 리눅스 명령어 사용의 기술</li>
 <li>저자: 대니얼 J. 바렛</li>
