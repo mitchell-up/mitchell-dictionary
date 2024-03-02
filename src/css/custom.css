@@ -28,3 +28,49 @@
   --ifm-color-primary-lightest: #abdae3;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.mdx__highlighter {
+  background-color: rgba(var(--ifm-color-primary-lightest), 0.3);
+  padding: 0.2rem;
+  border-radius: 2px;
+}
+
+/* Tables */
+.customTable {
+  border-collapse: collapse;
+  width: 500px;
+  margin: 0rem auto;
+  box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+ /* 테이블 행 */
+ .customTable th, .customTable td {
+  padding-inline: 8px;
+  padding-block: 6px;
+  /* padding: 8px; */
+  text-align: left;
+  border-bottom: 1px solid var(--docusaurus-highlighted-code-line-bg);
+  text-align: center;
+}
+
+.customTable th {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse);
+}
+
+/* 테이블 비율 */
+.customTable th:nth-child(1),
+.customTable td:nth-child(1) {
+  width: 16%;
+}
+
+.customTable th:nth-child(2),
+.customTable td:nth-child(2) {
+  width: 42%;
+}
+
+.customTable th:nth-child(3),
+.customTable td:nth-child(3) {
+  width: 42%;
+}
