@@ -1,0 +1,116 @@
+---
+authors: mitchell
+title: Promise.allSettled의 필요성
+date: 2024-03-05
+tags: [javascript, promise, async]
+description: 프론트엔드 성능 측정 및 최적화 방법에 대한 정리
+keywords: [frontend, javascript, promise, promise.all, promise.allSettled]
+---
+
+## 마주한 상황
+서버로부터 특정 점검과 관련된 리스트를 받아 그 데이터의 URL로 접근하여 정보를 다시 가져와야하는 경우가 발생하였습니다.
+
+예를 들어 다음과 같은 데이터를 서버로부터 전달 받을 것입니다.
+```js
+const results = [
+  {
+    id: 1,
+    dataUrl: 'https://wwww.abcd.efg/abc.json' 
+  },
+  ...
+]
+```
+
+진짜로 필요한 정보는 `results` 배열에 담겨있는 객체가 아니라, 그 객체의 `dataUrl`로 다시 get 요청을 통해 가져올 정보들입니다. 즉, 배열을 순회하면서 정보들을 가져와야합니다.
+
+## Promise.all
+여러 비동기처리를 한번에 처리해야할 때 쓰이는 `Promise.all`로 배열에 포함된 데이터들을 가져오려고 시도했습니다.
+
+```js
+function fetchData(url) {
+  const response = await fetch(url);
+  const jsonData = await response.json()
+  return jsonData
+}
+
+const promiseResults = Promise.all(results.map(async result => {
+  const data = await fetchData(result.dataUrl)
+
+  return {
+    ...result,
+    ...data
+  }
+}))
+```
+
+생각해보니, 모든 데이터의 `dataUrl`에 정확한 주소가 없을 수도 있습니다. 이에 따라 `Promise.all` 안의 이행중 `dataUrl`이 없거나 올바르지 않은 주소가 있을 때, 정상적으로 가져와야하 하는 데이터 마저도 얻지 못하게 됩니다.
+
+왜냐하면, `Promise.all`은 하나라도 `reject`되면 전체가 `reject`되기 때문입니다.
+
+## Promise.allSettled
+정확히 원하는 동작은, dataUrl을 가지고 있다면 해당 URL로부터 추가적인 데이터를 가져오고 그렇지 않다면 기존의 데이터를 유지하는 것이였습니다.
+
+따라서 배열의 비동기 동작 중 reject의 발생과 상관없이 모든 작업을 수행하는 `Promise.allSettled` 메소드를 이용해야 합니다.
+
+```js
+function fetchData(url) {
+  const response = await fetch(url);
+  const jsonData = await response.json()
+  return jsonData
+}
+
+const promiseResults = await Promise.allSettled(results.map(async result => {
+  const data = await fetchData(XPathResult.dataUrl)
+
+  return {
+    ...result,
+    ...data
+  }
+}))
+```
+
+여기서 유의해야할 점은, `Promise.allSettled`의 반환값이 `results.map`의 반환 모양대로 나오지 않는다는 것입니다. 예상되는 반환 값은 다음과 같으며, `results.map`의 반환으로 나와야하는 모양은 `values` 안에 담겨있게 됩니다.
+
+```
+[
+  {
+    status: 'fulfilled',
+    values: {
+      ...
+    }
+  },
+  {
+    status: 'rejected',  
+    reason: 'failed'
+  }
+]
+```
+
+따라서 해당 동작에 유의하여 다음과 같이 다시 변환해야 합니다.
+
+```js
+function fetchData(url) {
+  const response = await fetch(url);
+  const jsonData = await response.json()
+  return jsonData
+}
+
+const promiseResults = await Promise.allSettled(
+  results.map(async result => {
+  const data = await fetchData(result.dataUrl)
+
+  return {
+    ...result,
+    ...data
+  }
+})).then(promisedResults => {
+  return promisedResults.map((result, idx) => {
+    // 기존 서버데이터
+    ...results[idx],
+    // dataUrl로 불러온 데이터
+    ...result
+  })
+})
+```
+
+*then의 최종 변환 과정은 최소 서버데이터를 유지하면서 dataUrl로부터의 데이터가 추가되도록 변환하는 과정입니다.*
