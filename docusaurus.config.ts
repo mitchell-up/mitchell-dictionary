@@ -86,6 +86,12 @@ const config: Config = {
           position: 'left',
           label: 'Dictionary',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'study', 
+          label: 'Study', 
+          position: 'left'
+        },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/mitchell-up',
