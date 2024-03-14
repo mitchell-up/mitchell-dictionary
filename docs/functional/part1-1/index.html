@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-functional/part1-1" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.1.0">
+<title data-rh="true">액션, 계산, 데이터 - 1부 | Mitchell Dictionary</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://mitchell-up.github.io/mitchell-dictionary/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://mitchell-up.github.io/mitchell-dictionary/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://mitchell-up.github.io/mitchell-dictionary/docs/functional/part1-1"><meta data-rh="true" property="og:locale" content="ko"><meta data-rh="true" name="docusaurus_locale" content="ko"><meta data-rh="true" name="docsearch:language" content="ko"><meta data-rh="true" name="keywords" content="frontend,blog,software,react,html,css,javascript,typescript,web,develop"><meta data-rh="true" name="robots" content="all"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="액션, 계산, 데이터 - 1부 | Mitchell Dictionary"><meta data-rh="true" name="description" content="이 글은 &quot;쏙쏙 들어오는 항수형 코딩&quot;을 읽고 요약, 정리한 글입니다."><meta data-rh="true" property="og:description" content="이 글은 &quot;쏙쏙 들어오는 항수형 코딩&quot;을 읽고 요약, 정리한 글입니다."><link data-rh="true" rel="icon" href="/mitchell-dictionary/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://mitchell-up.github.io/mitchell-dictionary/docs/functional/part1-1"><link data-rh="true" rel="alternate" href="https://mitchell-up.github.io/mitchell-dictionary/docs/functional/part1-1" hreflang="ko"><link data-rh="true" rel="alternate" href="https://mitchell-up.github.io/mitchell-dictionary/docs/functional/part1-1" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/mitchell-dictionary/blog/rss.xml" title="Mitchell Dictionary RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/mitchell-dictionary/blog/atom.xml" title="Mitchell Dictionary Atom Feed">
+<link rel="alternate" type="application/json" href="/mitchell-dictionary/blog/feed.json" title="Mitchell Dictionary JSON Feed">
+
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QTCKXBPZ9B"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-QTCKXBPZ9B",{anonymize_ip:!0})</script><link rel="stylesheet" href="/mitchell-dictionary/assets/css/styles.13a11999.css">
+<script src="/mitchell-dictionary/assets/js/runtime~main.5f962d08.js" defer="defer"></script>
+<script src="/mitchell-dictionary/assets/js/main.2e2c8a93.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="본문으로 건너뛰기"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">본문으로 건너뛰기</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/mitchell-dictionary/"><div class="navbar__logo"><img src="/mitchell-dictionary/img/logo.png" alt="Mitchell Dictionary Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/mitchell-dictionary/img/logo.png" alt="Mitchell Dictionary Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Mitchell</b></a><a class="navbar__item navbar__link" href="/mitchell-dictionary/docs/intro">Dictionary</a><a class="navbar__item navbar__link" href="/mitchell-dictionary/docs/algorithm/binary-search">Study</a><a class="navbar__item navbar__link" href="/mitchell-dictionary/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/mitchell-up" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="어두운 모드와 밝은 모드 전환하기 (현재 밝은 모드)" aria-label="어두운 모드와 밝은 모드 전환하기 (현재 밝은 모드)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="맨 위로 스크롤하기" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><main class="docMainContainer_TBSr docMainContainerEnhanced_lQrH"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">이 페이지에서</button></div><div class="theme-doc-markdown markdown"><h1>액션, 계산, 데이터 - 1부</h1>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>정보</div><div class="admonitionContent_BuS1"><p>이 글은 &quot;쏙쏙 들어오는 항수형 코딩&quot;을 읽고 요약, 정리한 글입니다.</p></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="함수형-프로그래밍이란">함수형 프 로그래밍이란<a href="#함수형-프로그래밍이란" class="hash-link" aria-label="함수형 프로그래밍이란에 대한 직접 링크" title="함수형 프로그래밍이란에 대한 직접 링크">​</a></h2>
+<p>이론적으로는 부수효과 없이 순수함수를 사용하는 것이 특징인 프로그래밍 패러다임을 의미합니다. 그러나 DOM 업데이트, 서버에서 데이터 가져오기 등 부수효과는 함수를 실행하는 목적이기도 합니다. 따라서 실무적으로는 <strong>부수효과를 잘 다루면서 순수함수를 주로 사용하는 방식의 프로그래밍</strong>이라고 정리할 수 있습니다.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="액션-계산-데이터-구분하기">액션, 계산, 데이터 구분하기<a href="#액션-계산-데이터-구분하기" class="hash-link" aria-label="액션, 계산, 데이터 구분하기에 대한 직접 링크" title="액션, 계산, 데이터 구분하기에 대한 직접 링크">​</a></h2>
+<p>소스코드를 액션, 계산, 데이터로 구분지어 다시 생각해볼 수 있습니다.
+함수형 프로그래밍에서는 액션보다 계산을 선호하고, 계산보다 데이터를 선호합니다.
+따라서 액션에서 계산으로 분리할 수 있는 부분은 분리해야하고, 계산하지 않아도 되는 값은 데이터로 유지합니다.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="액션">액션<a href="#액션" class="hash-link" aria-label="액션에 대한 직접 링크" title="액션에 대한 직접 링크">​</a></h3>
+<p><strong>✅ 부수효과가 있는 함수, 순수하지 않는 함수라고도 부릅니다.</strong><br>
+<!-- -->부수효과란 함수가 값을 리턴하는 것 이외에 하는 모든 일을 의미합니다.</p>
+<p><strong>✅ 실행 시점과 횟수에 의존하며 외부세계에 영향을 주거나 받는 것을 말합니다.</strong><br>
+<!-- -->실행시점과 횟수에 의존한다는 말은 함수를 언제 실행하고, 얼마 나 실행하느냐에 따라 함수 실행의 영향이 달라질 수 있다는 것을 의미합니다.</p>
+<p><strong>✅ 액션에는 암묵적 입력과 출력이 있습니다.</strong><br>
+<!-- -->함수의 인자로 전달된 값이 아닌 전역상태 또는 외부의 값을 압묵적 입력이라고 합니다.<br>
+<!-- -->어떠한 값을 리턴하는게 아니라 외부요소에 영향을 미칠때 암묵적 출력이라고 합니다.</p>
+<p><strong>✅ 액션은 코드 전체로 퍼집니다.</strong><br>
+<!-- -->액션함수를 호출하는 함수는 액션함수가 됩니다.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="계산">계산<a href="#계산" class="hash-link" aria-label="계산에 대한 직접 링크" title="계산에 대한 직접 링크">​</a></h3>
+<p><strong>✅ 입력을 받아 출력을 계산하는 함수, 순수함수라고도 합니다.</strong><br>
+<!-- -->암묵적 입출력이 없기 때문에 입력 값이 같다면 항상 같은 출력 값을 기대할 수 있습니다.<br>
+<!-- -->따라서 정적분석 및 테스트하기 쉬운 함수가 됩니다.</p>
+<blockquote>
+<p><strong>정적분석</strong><br>
+<!-- -->작성된 프로그램 또는 함수를 직접 실행하지 않고 소스코드를 기반으로 분석 검증하는 것</p>
+</blockquote>
+<p><strong>✅ 조합하기에 유리합니다.</strong><br>
+<!-- -->계산함수를 재조합하여 새로운 계산함수를 만들 수 있습니다.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="데이터">데이터<a href="#데이터" class="hash-link" aria-label="데이터에 대한 직접 링크" title="데이터에 대한 직접 링크">​</a></h3>
+<p><strong>✅ 이벤트에 대한 사실, 결과입니다.</strong><br>
+<!-- -->사용자가 입력한 이메일, 데이터베이스에서 읽은 회원이름 같이 어떤 값, 결과 자체입니다. 따라서 데이터가 의미를 가지려면 그에 대한 해석이 필요합니다.</p>
+<p><strong>✅ 함수가 아닌 기본데이터 타입으로  구현합니다.</strong><br>
+<!-- -->숫자, 문자, 배열, 객체 등 데이터 타입을 사용하여 표현하게 됩니다.</p>
+<p><strong>✅ 불변 데이터를 만들기 위해 두가지 원칙을 사용합니다.</strong></p>
+<ul>
+<li>Copy on Write: 데이터 변경 시 복사본을 생성한다.</li>
+<li>Defensive Copy: 보관하려는 데이터의 복사본을 생성한다.</li>
+</ul>
+<div class="theme-admonition theme-admonition-note admonition_xJq3 alert alert--secondary"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>노트</div><div class="admonitionContent_BuS1"><p>불변성을 지키려면 반드시 복사본을 생성해야하기 때문에 배열을 바꾸는 것보다 비용은 비쌉니다. 그러나 최신 프로그램 언어의 런타임과 가비지 컬렉터는 충분히 효율적으로 메모리를 처리하기 때문에 큰 고려사항은 아닙니다. 섣부른 최적화 보다는 필요시 고려해보는 것을 추천합니다. 따라서 불변성을 지키는 것이 더 유리합니다.</p></div></div>
+<p><strong>✅ 직렬화된 데이터</strong><br>
+<!-- -->데이터를 직렬화할 경우 디스크에 저장하거나 통신시에도 함수에 비해 보존이 잘 됩니다.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="계산-추출하기">계산 추출하기<a href="#계산-추출하기" class="hash-link" aria-label="계산 추출하기에 대한 직접 링크" title="계산 추출하기에 대한 직접 링크">​</a></h2>
+<ol>
+<li>계산 코드를 찾아 빼냅니다</li>
+<li>새 함수에 암묵적 입력과 출력을 찾습니다</li>
+<li>암묵적 입력은 인자로 암묵적 출력은 리턴값으로 바꿉니다.</li>
+<li>더 재사용가능한 유틸리티 함수로 변경하기</li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="더-좋은-액션">더 좋은 액션<a href="#더-좋은-액션" class="hash-link" aria-label="더 좋은 액션에 대한 직접 링크" title="더 좋은 액션에 대한 직접 링크">​</a></h2>
+<p>액션은 가능한 적게 사용하고 가능한 작게 만드는게 좋습니다.</p>
+<ol>
+<li>비즈니스 요구 사항과 설계를 맞추기</li>
+<li>비즈니스 요구 사항과 함수를 맞추기</li>
+<li>원칙: 암묵적 입력과 출력을 적을수록 좋습니다.<!-- -->
+<ul>
+<li>명시적 입력과 출력은 함수를 쉽게 뗴었다 붙일 수 있는 모듈로 만듭니다.</li>
+</ul>
+</li>
+<li>원칙: 설계는 엉켜있는 코드를 푸는 것입니다.</li>
+<li>함수는 작을 수록 좋다<!-- -->
+<ul>
+<li>재사용하기 쉽다</li>
+<li>유지보수하기 쉽다</li>
+<li>테스트하기 쉽다</li>
+</ul>
+</li>
+</ol></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="문서 페이지"></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#함수형-프로그래밍이란" class="table-of-contents__link toc-highlight">함수형 프로그래밍이란</a></li><li><a href="#액션-계산-데이터-구분하기" class="table-of-contents__link toc-highlight">액션, 계산, 데이터 구분하기</a><ul><li><a href="#액션" class="table-of-contents__link toc-highlight">액션</a></li><li><a href="#계산" class="table-of-contents__link toc-highlight">계산</a></li><li><a href="#데이터" class="table-of-contents__link toc-highlight">데이터</a></li></ul></li><li><a href="#계산-추출하기" class="table-of-contents__link toc-highlight">계산 추출하기</a></li><li><a href="#더-좋은-액션" class="table-of-contents__link toc-highlight">더 좋은 액션</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Mitchell Dictionary. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
