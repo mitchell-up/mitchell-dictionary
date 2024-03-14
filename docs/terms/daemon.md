@@ -1,3 +1,9 @@
+---
+title: Daemon
+description: Daemon의 정의와 특징
+keywords: [daemon, linux, os]
+---
+
 # Daemon
 데몬은 사용자가 직접 제어하지 않고, 백그라운드에서 돌면서 여러 작업을 하는 프로그램을 일컫는다.
 - 리눅스 시스템이 처음 가동될 때 실행되는 백그라운드 프로세스이다.
