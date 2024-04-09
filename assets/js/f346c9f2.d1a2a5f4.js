@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[1727],{4622:l=>{l.exports=JSON.parse('{"label":"msw","permalink":"/mitchell-dictionary/blog/tags/msw","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
