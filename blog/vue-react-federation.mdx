@@ -1,0 +1,325 @@
+---
+authors: mitchell
+title: Module Federation을 활용한 Vue2에서 React로의 점진적 마이그레이션
+date: 2024-04-13
+tags: [vite, webpack, javascript, typescript, react, vue, microfrontend]
+description: 마이크로프론트엔드 아키텍쳐와 Module Federation 접근을 통한 Vue2에서 React로의 점진적 마이그레이션 방법
+keywords: [vite,webpack,build,bundle,module,javascript,typescript,react,vue,federation,microfrontend]
+enableComments: true
+---
+
+# Module Federation을 활용한 Vue2에서 React로의 점진적 마이그레이션
+
+레거시 프로젝트의 코드베이스를 다른 코드베이스로 마이그레이션 하는 것은 서비스의 안정성 측면에서, 작업의 규모 측면에서 상당히 부담스러운 작업입니다. 프로젝트 전체를 한번에 마이그레이션 해야한다면 코드 마이그레이션 작업 자체로도 부하가 올 뿐 만 아니라, QA 측면에서도 세세한 부분까지 다시 검증해야하기 때문입니다.
+
+사용자 입장에서는 어떨까요? 사실 마이그레이션은 사용자 입장에서는 어떠한 변화도 느끼지 못합니다. 내부적인 코드가 바뀔 뿐이니까요. 그런데 전체 마이그레이션을 진행해버리는 경우 내부적으로는 엄청 바쁜 과정을 통해 진행되지만 겉으로는 사용자에게 전혀 제공되는 이점이 없는셈입니다. 그러나 그런 선택을 했다는 것은 장기적인 측면에서 반드시 진행해야 하는 이유들이 있었기 때문입니다.
+
+따라서 사용자에게 충분한 변화를 주면서 마이그레이션을 줄 수 있는 방법은 한번에 하는 것이 아니라 점진적으로 진행하는 것입니다. 레거시에서의 기능개발을 진행하면서도, 일부 페이지에 대해서는 마이그레이션 하는 방식으로 접근할 수 있다면 서비스의 성장과 품질을 모두 챙길 수 있을 것입니다.
+
+<br/>
+
+## Migration을 진행하는 이유
+
+기존 제품은 21년도에 Vue2로 개발되어 현재까지도 서비스 중인 매장관리서비스입니다. 아래와 같은 이유들 때문에 Vue2에서 React로 마이그레이션을 결정하게 되었습니다.
+
+### Vue2의 지원 종료
+2023년 12월 31일 기준 [공식문서](https://v2.vuejs.org/eol/)에 의하면 Vue2에 대한 지원은 공식적으로 종료되었습니다. 현재의 Vue는 Vue3을 공식으로 지원하고 있습니다. 따라서 Vue3나 React나 결국 마이그레이션이 필요한 상황에 처해있었습니다.
+
+### 제품 복잡도
+Vue는 데이터가 양방향으로 흐르도록 설계되어 있는데요. 제품 초기에는 빠른 개발속도와 직관적인 데이터 흐름으로 인해 장점으로 느껴졌었습니다. 그러나 제품이 성장함에 따라 다양한 데이터들이 컴포넌트에 따라 흐르게 되면서, 데이터 흐름을 추적하기가 점차 난해해지고 있는 문제가 있었는데요. 반면에 React에서는 부모에서 자식 컴포넌트로 **데이터가 단방향으로 흐르기 때문에 여러 파일을 뒤져보지 않더라도 컴포넌트 구조를 따라 데이터 흐름을 파악하기 용이**하였습니다. 이러한 측면으로 인해서 장기적으로 더 복잡해질 해당 제품의 코드 복잡도를 낮출 수 있겠다고 판단되었습니다.
+
+### 생태계 및 커뮤니티 지원
+Vue의 생태계에서도 충분히 지원되는 라이브러리나 도구들이 존재하지만, React가 가지고 있는 방대한 생태계에서는 확실히 부족해보입니다. Redux, Recoil, Jotai, Zustand 등 다양한 전역상태 관리 도구들이나, TanStack Query 같은 Data Fetching 라이브러리, 커뮤니티에서 찾아볼 수 있는 좋은 예제들과 프로젝트들이 React를 더욱 매력적으로 보이게 하는 요소들이였습니다.
+
+### 그 외 사내의 상황
+
+- 프로젝트 구조가 Monorepo 환경으로 개편되면서, 공통 모듈을 원활하게 사용할 수 있게 되었습니다.
+- React로 개발된 디자인 시스템을 적용할 수 있어 브랜드에 맞는 디자인을 유지하면서도 개발 호율을 높일 수 있게 됩니다.
+- 타입스크립트로의 마이그레이션하여 정적 타입 분석을 통해 안정성을 더욱 높일 필요가 있었습니다.
+- 프론트엔드의 코드베이스 단일화가 필요합니다.
+
+<br/>
+
+## 점진적으로 마이그레이션 아이디어 (Module Federation)
+
+말머리에서 왜 마이그레이션을 점진적으로 진행해야 하는지는 설명하였습니다. 그런데 어떻게 하면 Vue로 작성된 코드들을 React로 점진적으로 마이그레이션 할 수 있을까요? 해당 문제에 대한 해결책은, 페이지 별로 구분하여 점진적으로 React로 바꾸어나가는 것인데요. 결론적으로 말하자면, **Module Federation을 활용하여 Vue 프로젝트 안에서, 일부 페이지들을 런타임에 통합하여 제공**하는 방식으로 접근하면 가능하게 됩니다.
+
+### Module Federation
+
+Module Federation은 마이크로프론트엔드 아키텍쳐로 서비스를 제공할 수 있는 핵심 아이디어인데요. 하나의 코드베이스에서 프로젝트를 배포하는 것이 아니라, Feature를 기준으로 서비스를 독립적으로 배포하고, 느슨하게 연결해줄수 있는 구조입니다. 즉 하나의 서비스를 여러 마이크로 서비스로 나누고, 하나의 웹사이트에서 하나의 서비스 처럼 동작할 수 있도록 해줍니다.
+
+### 핵심 컨셉
+1. **기술 독립성**: 각 단위는 기술적으로 독립적이여야 한다.
+2. **컨텍스트 독립성**: 각 단위는 애플리케이션을 자제척으로 구축해야하며, 다른 곳의 상태를 공유하거나 변수에 의존하지 않도록 한다.
+3. **네임스페이스를 활용한 분리**: 각 작동의 단위 격리가 불가능한 경우, 네이밍 컨벤션에 따라 prefix 등으로 네임스페이스를 활용한다.
+4. **기본 브라우저 기능 활용**: 단위간의 통신을 위해 자체 시스템을 구축하기 보다는 브라우저 이벤트, 커스텀이벤트를 활용하고 필요한 경우 최대한 간단하게 유지한다.
+5. **탄력적인 웹 디자인 구축**: 자바스크립트가 에러가 있거나 실행할 수 없어도, 기능은 사용가능해야 하며, 범용렌더링과 점진적 향상을 통해 성능을 향상시킬 수 있다.
+
+### 도입시 장점
+- 확장성
+- 독립적 개발 및 배포
+- 더 빠른 배포
+- 팀 자율성 강화
+- 업데이트 및 유지관리 용이
+
+### 도입시 단점
+- 통합의 복잡성
+- 전체 앱 번들 크기가 증가, 로드 시간 증가로 성능문제
+- 배포, 모니터링, 확장을 위한 오버헤드가 발생하고, 네트워크 비용증가
+- 일관된 코딩 표준을 유지하고 팀 간의 의존성 관리에 강력한 거버넌스가 필요하며 이에 따라 의사결정이 느려질 수 있음.
+
+즉 요약하면, 제품 자체의 크기가 매우 크고 무거우며, 다양한 팀이 속해 있을 때 마이크로프론트엔드 아키텍쳐를 통해서 다양한 문제를 해결할 수 있다는 것인데요. 사실 저희 제품과 회사가 처한 상황과는 거리가 멉니다. (하나의 팀, 그렇게 크지 않은 서비스)
+
+그럼에도, 하나의 코드베이스로 국한될 수 있는 상황에서 일부 페이지들을 독립적으로 분리하여 개발하고 런타임에서 통합시킬 수 있다는 특징과 하나의 Host App과 하나의 Remote App만 가지고 있으므로, 통합에서의 복잡도도 크지 않기 때문에 React로의 마이그레션 과정에서 임시로 사용할만한 해결책으로 채택하게 되었습니다.
+
+---
+
+## Vue2에서 React 렌더링하기
+React로 마이그레이션 할 것이기 때문에 당연히 마이그레이션 대상이 되는 페이지들을 React로 구현해야 합니다. 페이지 구현이 완료되었다면, 이제 런타임에서 해당 페이지를 보여주어야 합니다.
+
+### Module Federation 설정하기
+Webpack이나 Vite의 플러그인으로 제공되는 Module Federation을 이용해 설정할 수 있습니다. 저희 예제에서는 Vite를 사용하였습니다.
+
+Vue와 React에서 아래의 플러그인 설치하세요. 
+
+```
+npm install -D @originjs/vite-plugin-federation
+```
+
+### React
+
+```js title="vite.config.js"
+export default defineConfig({
+  plugins: [react(), federation({
+    name: "remote-app",
+    filename: "remoteEntry.js",
+    exposes: {
+      "./App": "./src/App",
+    },
+    shared: {
+      react: {
+        requiredVersion: "^18.2.0",
+      },
+      "react-dom": {
+        requiredVersion: "^18.2.0",
+      },
+    },
+  })],
+  build: {
+    target: 'esnext'
+  }
+})
+```
+- 가져오는 대상이 되는 앱을 Remote라고 부릅니다.
+- DOM 요소에 바인딩하는 작업은 Vue 안에서 진행할 예정입니다. 따라서 React에서는 진입점인 App 파일만 내보내도록 설장합니다.
+- shared 설정을 통해서, 같은 버전의 리액트를 여러번 로드하지 않도록 해줍니다.
+
+### Vue
+
+```js title="vite.config.js"
+export default defineConfig({
+  // ...
+
+  plugins: [
+    vue(),
+    federation({
+      name: 'host-app',
+      remotes: {
+        remoted: 'http://localhost:4173/assets/remoteEntry.js',
+      },
+      shared: ['react', 'react-dom'],
+    }),
+  ],
+  build: {
+    target: 'esnext'
+  }
+
+  // ...
+})
+```
+
+- 리모트를 가져오는 주체가 되는 앱을 Host라고 합니다.
+- remotes에서 가져올 앱의 리모트를 등록합니다. 여기에서는 remoted라는 키로 맵핑하였습니다.
+- shared 설정을 통해서, Remote App에서 패키징 시간을 절약, React, react-dom이 여러번 다운로드 되는 것을 방지합니다.
+
+---
+
+## Vue2 안에서 React 렌더링하기
+프레임워크를 떠나서 기본적으로 모두 자바스크립트라는 사실을 잊지 말아야합니다. 즉, Vue 안에서 React를 분명히 렌더링할 수 있다는 말입니다. CRA나 vite-create로 시작할 때 `index.js`에서 리액트를 DOM에 Mount 했던 코드를 Vue 안에서 실행시켜주면 됩니다.
+
+```html
+<template>
+  <div>
+    <!-- Vue의 페이지가 렌더링 됩니다. -->
+    <router-view>
+    <!-- React의 페이지가 렌더링 됩니다. -->
+    <div ref="reactRoot"></div>
+  </div>
+</template>
+
+<script>
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+export default {
+  methods: {
+    //...
+    async renderReactApp() {
+      // 리모트 앱에서 App를 불러온다.
+      const reactApp = await import("remoted/App");
+
+      // id가 reactRoot인 DOM 요소에 reactApp을 렌더한다.
+      ReactDOM.createRoot(this.$refs.reactRoot).render(
+        React.createElement(reactApp.default)
+      );
+    },
+    //...
+  },
+};
+</script>
+```
+
+<br/>
+
+## React 페이지 라우팅하기
+단편적으로 생각했을 때 리액트로 헨더할 페이지 마다 Vue 파일을 생성하고, vue-router에서 해당 되는 url에 연결시켜주면 되겠다고 생각할 수 있습니다. 그러나 불필요하게 React를 페이지마다 다시 마운트해야 되고, 코드가 중복을 발생되는 문제가 있을 뿐만 아니라. 리액트 페이지들끼리 간에도 새로 렌더링하기 때문에 상태를 공유할 수 없다는 치명적인 문제가 발생할 수 있습니다.
+
+따라서 reactApp은 딱 한번 초기화되도록 해야합니다. 저희는 Vue의 진입점이 되는 App.vue 파일 안에서 딱 한번만 React의 리모트를 불러와 렌더링 할 것입니다. 그리고 URL 구분을 통해 Vue app이 렌더링할지, React app이 렌더링할지 결정하도록 설정하였습니다.
+
+```js title="Vue Router"
+const router = new Router({
+  mode: 'history',
+  routes: [
+    // ...
+    {
+      path: '/react/*',
+      component: null
+    },
+    // ...
+  ]
+}) 
+```
+
+- Vue 페이지 라우팅을 관리하는 Vue Router의 일부입니다. path에 '/react'가 포함되어 있다면, Vue에서는 어떤 것도 렌더링 하지 않도록 component에 null을 할당합니다.
+
+```js title="React App"
+function App() {
+  switch (location.pathname) {
+    case '/react/some-page':
+      
+      return <SomePage />
+    
+    // ...
+  
+    default:
+      return null
+  }
+};
+
+export default App
+```
+
+- React에서는 현재 url의 pathname에 따라 적절한 페이지가 렌더링 될 수 있도로 설정합니다. Vue에서는 '/react'가 포함된 페이지에서 아무것도 렌더링하지 않지만, React에서는 해당 url에 대해 적절한 페이지들을 렌더링 할 것입니다.
+
+그러나 여기에서 문제가 있습니다. `location.pathname`은 리액트가 변경을 추적하는 상태가 아닙니다. 따라서 Vue 쪽에서 페이지를 변경한다고 하더라도, React에서는 페이지 변화를 알 수가 없습니다. 따라서 Vue의 변경이 React에 미치도록 해야합니다.
+
+<br/>
+
+## 커스텀 이벤트를 통한 페이지 변화 감지
+
+Vue에서는 Vue Router를 통해서 페이지 변화를 정상적으로 감지 할 수 있습니다. 이를 React에 알려주기 위한 방법으로 페이지 변화에 대한 커스텀 이벤트를 만들어 Vue에서 이벤트를 발생시키고, React에서는 이 커스텀 이벤트에 대한 이벤트리스너를 등록하여 페이지 변화에 따른 변화가 발생하도록 해줄 것입니다.
+
+```js title="Vue Custom Event"
+router.beforeEach(async (to, from, next) => {
+  // 아래 코드 검증 필요
+  if (to.path.startsWith('/react')) {
+    const routeChangeEvent = new CustomEvent('routeChange', { 
+      detail: { to: to.path }
+    })
+
+    window.dispatchEvent(routeChangeEvent);
+  }
+})
+```
+
+- Vue Router의 라우트 가드를 통해서, 페이지 진입전 경로를 체크하여, react로의 페이지 이동이라면, `routeChange` 라는 커스텀이벤트를 생성하고 이벤트를 발생시킵니다.
+
+
+```ts title="React Listen Custom Event"
+function App() {
+  const [path, setPath] = useState(location.pathname)
+
+  useEffect(() => {
+    const routeChangeHandler = (event: { detail: { to: string; }; }) => {
+      const { to } = event.detail;
+      setPath(to)
+    };
+  
+    //@ts-ignore
+    window.addEventListener('routeChange', routeChangeHandler);
+  
+    return () => {
+      //@ts-ignore
+      window.removeEventListener('routeChange', routeChangeHandler);
+    };
+  }, []);
+
+  switch (path) {
+    case '/react/some-page':
+      return <SomePage />;
+    
+    // ...
+  
+    default:
+      return null;
+  }
+};
+
+export default App;
+```
+
+- React에서는 `routeChange` 이벤트에 반응하여 현재 pathname을 업데이트 하는 콜백함수를 이벤트 리스너로 추가합니다.
+- 이제 Page 변화에 따라 정상적으로 알맞는 React 페이지들이 렌더링 할 수 있게 됩니다.
+
+
+## 분리된 앱들과 상태 공유하기
+사실 분리된 App에 공유상태를 두는것은 좋지 않습니다. 공유 상태를 앱들이 구독하게 되는 경우, 앱들간의 종속성 생겨 앱의 독립성을 보장할 수 없기 때문입니다. 이 때문에 메모리의 상태를 공유하기 보다는 스토리지를 이용하여 간접적으로 접근하는 방법을 차용하는 게 좋습니다. (로컬스토리지, 세션스토리지, 쿠키 등)
+
+그럼에도 불구하고 필요한 경우가 생기기 마련인데요. 저희의 경우에는 JWT로 만들어진 Access Token을 스토리지에 저장하지 않고, 메모리에 저장하여 휘발적으로 관리하고 있었습니다. 따라서 발급받은 AccessToken을 마이크로 앱에서 모두 접근할 수 있어야 했습니다.
+
+### Access Token 저장하고 공유하기
+마이크로 앱 간에 토큰에 접근하기 위해서는 결국 전역을 통해서 접근하는 방법 밖에는 보이지 않는데요. 전역에 대놓고 액세스 토큰을 선언하고 할당해버리는 경우 누구누 쉽게 접근할 수 있기 때문에 위변조가 쉽게 발생할 수 있어 위험합니다. 따라서 closure를 활용하여 액세스토큰 변수를 은닉하고, 함수를 통해서 저장하고 꺼내올 수 있도록 처리하였습니다.
+
+```js
+function tokenHub() {
+  let _accessToken = null;
+
+  return {
+    getAccessToken() {
+      return _accessToken
+    },
+    setAccessToken(accessToken) {
+      _accessToken = accessToken
+    }
+  }
+}
+
+if (window) {
+  window.federationShared = {
+    ...tokenHub()
+  }
+}
+```
+
+- `tokenHub`를 호출하여 반환되는 함수를 `window` 전역객체에 등록합니다.
+
+```js
+window.federationShared.getAccessToken // 액세스토큰 값
+```
+
+- Host이든 Remote이든 `window.federationShared` 통해서 전역변수에 접근이 가능합니다.
+
+<br/>
+
+## 마치며
+이 글에서의 주요 목적은 Vue에서 React로 점진적 마이그레이션을 적용하는 과정에서 Module Federation을 활용하는 방법과 그 상황에서 발생할 수 있는 여러 문제를 해결하는 방법을 공유하였습니다. 마이그레이션을 계속 진행할수록 새롭고 다양한 문제들을 마주할 것으로 예상되는데요. 그럼에도 점진적으로 제품을 마이그레이션 할 수 있는 방법이 있어 다행입니다 😂
