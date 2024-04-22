@@ -1,41 +1,17 @@
-# Website
+# Mitchell Dictionary
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+## 용어사전
 
-### Installation
+프로그래밍, 소프트웨어 개발에서 사용되는 전문 용어들의 의미를 이해하고 정리합니다.
 
-```
-$ yarn
-```
+<br/>
 
-### Local Development
+## 문서번역
 
-```
-$ yarn start
-```
+번역본이 없는 공식문서들, 개발과 관련된 해외 아티클들을 한글로 번역합니다.
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+<br/>
 
-### Build
+## 블로그
 
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+기술과 관련된 분석, 생각 등을 정리하고, 트러블슈팅이나 실무 사용사례들을 공유합니다.
