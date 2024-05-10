@@ -231,7 +231,6 @@ Vue에서는 Vue Router를 통해서 페이지 변화를 정상적으로 감지 
 
 ```js title="Vue Custom Event"
 router.beforeEach(async (to, from, next) => {
-  // 아래 코드 검증 필요
   if (to.path.startsWith('/react')) {
     const routeChangeEvent = new CustomEvent('routeChange', { 
       detail: { to: to.path }
@@ -255,11 +254,9 @@ function App() {
       setPath(to)
     };
   
-    //@ts-ignore
     window.addEventListener('routeChange', routeChangeHandler);
   
     return () => {
-      //@ts-ignore
       window.removeEventListener('routeChange', routeChangeHandler);
     };
   }, []);
