@@ -1,0 +1,187 @@
+---
+authors: mitchell
+title: TanStack Query의 Mutation Cache와 meta 활용하기
+date: 2024-04-30
+tags: [react, frontend, error, useMutation, MutationCache, TanStack Query]
+description: rollup으로 번들사이즈 줄여보기
+keywords: [react, frontend, error, useMutation, MutationCache, TanStack Query]
+enableComments: true
+---
+
+### TanStack Query의 Mutation Cache와 meta 활용하기
+Mutation을 중심으로 Mutation Cache와 meta 데이터를 활용하는 방법에 대해서 공유합니다. (Query와 관련된 활용에서도 동일합니다.)
+
+<br/>
+
+## QueryClient 살펴보기
+TanStack Query를 사용하는 진입점에서 우리는 `QueryClient` 인스턴스를 생성하고 `QueryClientProvider`로 넘겨서 전역에서 해당 클라이언트를 사용할 수 있게 됩니다. 여기에서 QueryClient에 여러 설정을 해줄 수 있는데요. Mutation을 중심으로 살펴보면, `defaultOptions`의 `mutations`, `mutationCache` 옵션이 있습니다.
+
+<!--truncate-->
+
+```tsx
+export default function App() {
+  const queryClinet = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        /* Mutation Options */
+      },
+    },
+    mutationCache: /* Mutation Cache */,
+  })
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* children */}
+    </QueryClientProvider>
+  )
+}
+```
+
+`defaultOptions.mutations`에서는 `useMutation`에 적용할 기본옵션들을 설정할 수 있습니다.
+
+`mutationCache`에서는 Mutation의 저장소인 `MutationCache` 인스턴스를 생성하고 등록할 수 있습니다.
+
+<br/>
+
+## Mutation Cache
+특히 Mutaion Cache에서는 전역레벨에서 처리될 글로벌 콜백들을(`onError`, `onSuccess`, `onSettled`, `onMutate`) 등록할 수 있습니다.
+
+`defaultOptions.mutations`에 등록한 sideEffects callback들과는 다르게 `useMutation`의 옵션으로 덮어씌워지지 않으며 항상 호출된다는 것이 특징입니다.
+
+```tsx
+export default function App() {
+  const queryClinet = new QueryClient({
+    // ...
+    mutationCache: new MutationCache({
+      onMutate(...args) {
+        // ...
+      },
+      onError(...args) {
+        // ...
+      },
+      onSuccess(...args) {
+        // ...
+      },
+      onSettled(...args) {
+        // ...
+      },
+    })
+  })
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* children */}
+    </QueryClientProvider>
+  )
+}
+```
+
+## Mutation Cache와 Meta 정보 활용하기
+특히 MutationCache의 콜백으로 넘어오는 인자중 mutation에서 meta 속성에 접근할 수 있는데요. 결론부터 얘기하자면 아래와 같이 활용할 수도 있습니다.
+
+```tsx
+export default function App() {
+  const queryClinet = new QueryClient({
+    // ...
+    mutationCache: new MutationCache({
+      // ...
+      onError(error, vars, ctx, mutation) {
+        // meta 정보를 활용하여 토스트메시지를 보여줍니다.
+        if (mutation.meta?.shouldShowToastMessage) {
+          Toast.error(mutation.meta?.errorMessage)
+        }
+      },
+      // ...
+    })
+  })
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* children */}
+    </QueryClientProvider>
+  )
+}
+```
+
+### meta 타입 지정하기
+타입스크립트 환경에서 meta에 적절한 정보를 주입하기 위해서는 아래와 같이 `react-query.d.ts` 파일로 타입을 확장해야합니다.
+
+```tsx title="react-query.d.ts"
+type MutationMeta = {
+  shouldShowToastMessage?: boolean
+  errorMessage?: string
+}
+
+declare module '@tanstack/react-query' {
+  interface Register {
+    mutationMeta: MutationMeta
+  }
+}
+
+export {}
+```
+
+### meta 정보 사용하기
+이제 아래와 같이 `useMutation`의 `options.meta`에 적절한 값을 할당할 수 있게 됩니다.
+
+```tsx
+export function useSomeMutation() {
+  return useMutation({
+    mutationFn: resetMemberAnswers,
+    meta: {
+      shouldShowToastMessage: true
+      errorMessage: '뮤테이션 에러가 발생하였습니다.',
+    },
+  })
+}
+```
+
+### callback 실행
+useSomeMutation을 사용할 컴포넌트에 등록하고, mutate 함수를 실행합니다.
+
+```tsx
+const { mutate } = useSomeMutation()
+
+<Button onClick={() => mutate()}>
+  버튼
+</Button>
+
+```
+
+다시 한번 onError Callback에 설정한 내용을 확인해보겠습니다.
+
+
+```tsx
+export default function App() {
+  const queryClinet = new QueryClient({
+    // ...
+    mutationCache: new MutationCache({
+      // ...
+      onError(error, vars, ctx, mutation) {
+        // meta 정보를 활용하여 토스트메시지를 보여줍니다.
+        if (mutation.meta?.shouldShowToastMessage) {
+          Toast.error(mutation.meta?.errorMessage)
+        }
+      },
+      // ...
+    })
+  })
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* children */}
+    </QueryClientProvider>
+  )
+}
+```
+
+`MutaionCache`에 등록된 callback은 `useSomeMutation`의 `mutate`에 실행에 따라 반드시 함께 실행됩니다. 만약 에러가 발생하였다면, `onError`의 callback이 실핼되고, 등록해두었던 `meta` 정보가 전달되어 '뮤테이션 에러가 발생하였습니다.' 메시지가 나타나게 될 것입니다.
+
+<br/>
+
+## 정리
+1. 반드시 실행된다는 점
+2. meta로 특정 정보를 넘길 수 있다는 점
+
+위 두가지 특징으로 인해 MutationCache를 활용하여 공통으로 처리할 부분에 대해서 여러 방면으로 활용할 기회가 있을 것 같습니다. 예제에서는 `onError`에 대해서만 작성하였으나, 모든 Callback에 대해서도 동일하게 적용됩니다. 심지어 Query 영역의 `QueryCache`에서도 동일하게 적용되니까요!
+
