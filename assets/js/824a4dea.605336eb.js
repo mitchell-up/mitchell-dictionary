@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[6319],{7463:l=>{l.exports=JSON.parse('{"label":"react","permalink":"/mitchell-dictionary/blog/tags/react","allTagsPath":"/mitchell-dictionary/blog/tags","count":3,"unlisted":false}')}}]);

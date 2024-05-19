@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[5737],{8643:e=>{e.exports=JSON.parse('{"permalink":"/mitchell-dictionary/blog/tags/vue","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

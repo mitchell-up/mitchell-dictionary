@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[5700],{8741:e=>{e.exports=JSON.parse('{"permalink":"/mitchell-dictionary/blog/tags/webpack","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
