@@ -1,0 +1,398 @@
+---
+authors: mitchell
+title: 리액트쿼리와 에러바운더리를 활용한 React 프론트엔드 에러 처리 방법
+date: 2024-06-03
+tags: [react, frontend, error, React Query, TanStack Query, ErrorBoundary, error handling, 에러처리, 비동기에러]
+description: TanStack Query, 리액트쿼리, 에러바운더리를 활용하여 React 프론트엔드에서 비동기 에러 처리에 대한 방법 정리
+keywords: [react, frontend, error, React Query, TanStack Query, ErrorBoundary, error handling, 에러처리, 비동기에러]
+enableComments: true
+---
+
+# 프론트엔드에서 비동기 에러 처리 방법에 대한 정리
+API 서버와의 통신 과정에서 발생할 수 있는 에러들과 이 에러들에 대한 적절한 처리를 통해 사용자 경험이 좋은 어플리케이션을 제공할 수 있습니다. 먼저 발생한 에러가 어떤 종류의 에러인지 파악하고 분류해야합니다. 에러가 파악되었다면 사용자가 처한 문맥에 맞게 적절한 에러처리를 진행하게 됩니다.
+
+예제에서는 다음의 라이브러리들과 API에 대한 선수지식이 필요합니다.
+
+- Axios
+- TanStack Query
+- Error Boundary
+
+---
+
+## 에러 정의하기
+에러가 어떻게 발생할 수 있는지를 중심으로 그 종류에 대해서 정리하겠습니다. 에러의 출처를 기준으로 에러의 종류를 나눠보겠습니다.
+
+### 사용자 에러
+에러의 원인이 애플리케이션 사용자에게 있는 에러입니다. HTTP Status Code 중 아래의 경우로 볼 수 있습니다.
+
+- 400: Bad Request - 잘못된 요청
+- 401: Unauthorized - 인증되지 않은 사용자
+- 403: Forbidden - 사용자 권한부족, 차단된 IP주소
+
+### 클라이언트 에러
+에러의 원인이 클라이언트 측에 있는 에러입니다. 개발단계에서 개발자의 실수로 발생할 확률이 높습니다. HTTP Status Code 중 아래의 경우로 볼 수 있습니다.
+
+- 404: Not Found - 존재하지 않는 URL 요청
+- 405: Method Not Allowed - 해당 URL로 허용되지 않은 메소드로 요청했을 때 (GET만 있는데 POST를 했다거나)
+- [그 외의 400번대 에러들](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses)
+
+
+### 서버 에러
+에러의 원인이 서버에게 있는 에러입니다. HTTP Status Code 중 아래의 경우로 볼 수 있습니다.
+
+- 500: Internal Server Error
+- 502: Bad Gateway
+- 503: Service Unavailable
+- 504: Gateway Timeout
+- [그 외 더 많은 500번대 에러들](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses)
+
+### 예상치 못한 에러
+서버가 응답하지 않거나 네트워크 연결이 끊어진 경우 `axios`에서 다음의 에러를 전달합니다.
+- ECONNABORTED: 요청의 타임아웃
+- ENOTFOUND: 서버를 찾을 수 없는 경우
+
+그 외 요청 과정에서 발생하는 예상할 수 없는 에러들이 있습니다.
+
+---
+
+## 에러 분류하기
+앞에서 개념적으로 에러 종류에 대해서 정의해보았습니다. 이제 본격적인 에러 처리에 앞서 런타임에서 발생한 에러를 분류하는 과정을 거쳐야합니다.
+
+### 에러 클래스 정의하기
+서버에서 발생하는 에러정보를 분류할 수 있도록 `HttpError` 클래스를 정의합니다.
+
+```tsx
+export const enum HttpErrorType {
+  USER = 'UserError',
+  AUTH = 'AuthError',
+  FORBIDDEN = 'ForbiddenError',
+  CLIENT = 'ClinetError',
+  SERVER = 'ServerError',
+  UNEXPECTED = 'UnexpectedError',
+}
+
+export type HttpErrorInfo<E = unknown> = {
+  type: HttpErrorType
+  errorCode: string | number
+  statusCode?: number
+  detail?: E
+  meta?: unknown
+}
+
+export class HttpError<E = unknown> extends Error {
+  private _type: HttpErrorType
+  private _errorCode: string | number
+  private _statusCode?: number
+  private _detail?: E
+  private _meta
+
+  constructor({ type, errorCode, statusCode, detail, meta }: HttpErrorInfo<E>) {
+    const generalMessage = `${type}: [${errorCode}]`
+
+    super(generalMessage)
+
+    this._type = type
+    this._errorCode = errorCode
+    this._statusCode = statusCode
+    this._detail = detail
+    this._meta = meta
+  }
+
+  get type() {
+    return this._type
+  }
+
+  get errorCode() {
+    return this._errorCode
+  }
+
+  get statusCode() {
+    return this._statusCode
+  }
+
+  get detail() {
+    return this._detail
+  }
+
+  get meta() {
+    return this._meta
+  }
+
+  printAll(...args: unknown[]) {
+    console.error(...args, this.message, {
+      type: this._type,
+      errorCode: this._errorCode,
+      statusCode: this._statusCode,
+      detail: this._detail,
+      meta: this._meta,
+    })
+  }
+}
+```
+
+에러 클래스를 생성하기 쉽고, 변화에 유연하게 대응할 수 있도록 팩토리 함수를 만듭니다.
+
+```tsx
+// 상태코드로 에러를 종류를 분류합니다.
+export function getErrorTypeFromStatusCode(statusCode?: number) {
+  if (!statusCode) {
+    return HttpErrorType.UNEXPECTED
+  }
+
+  if (statusCode < 500) {
+    switch (statusCode) {
+      case 400:
+        return HttpErrorType.USER
+      case 401:
+        return HttpErrorType.AUTH
+      case 403:
+        return HttpErrorType.FORBIDDEN
+      default:
+        return HttpErrorType.CLIENT
+    }
+  }
+
+  return HttpErrorType.SERVER
+}
+
+// 에러 클래스를 생성해주는 팩토리 함수입니다.
+export function getHttpError<D = unknown>(
+  errorCode: string | number,
+  detail?: D,
+  statusCode?: number,
+  meta?: unknown
+) {
+  return new HttpError({
+    type: getErrorTypeFromStatusCode(statusCode),
+    errorCode: errorCode,
+    detail,
+    statusCode,
+    meta,
+  })
+}
+
+// HttpError인지 체크하는 타입가드입니다.
+export function isHttpError<E = unknown>(
+  error: unknown
+): error is HttpError<E> {
+  return error instanceof HttpError
+}
+```
+
+### 런타임 에러 분류
+Axios를 통해서 HTTP 통신을 하고 있기 때문에, 적절하게 에러를 분류할 수 있는 곳은 `interceptor`로 판단됩니다. 응답이 발생한 후 즉각적으로 처리할 수 있기 때문입니다. 위에서 정의한 `HttpError`를 사용해 아래와 같이 응답 인터셉터 안에서 분류하겠습니다.
+
+```tsx
+const instance = axios.create({
+  baseURL: /* base url */,
+})
+
+instance.interceptors.response.use(undefined, (error) => {
+  if (isAxiosError<ErrorResponseData>(error)) {
+    const statusCode = error.response?.status
+    const errorDetail = error.response?.data
+
+    // 서버에서 별도의 에러코드를 내려줄 것으로 예상합니다.
+    const errorCode = errorDetail?.code || 'UNKNOWN_ERROR'
+
+    // 서버로 받은 응답을 토대로 HttpError를 생성하여 반환합니다.
+    return Promise.reject(getHttpError(errorCode, errorDetail, statusCode))
+  }
+
+  return Promise.reject(error)
+})
+```
+
+이후 에러가 `catch` 되는 부분들에서 `HttpError`의 정보를 가지고 있을 수 있게 됩니다. `interceptor` 안에서 여러 인증에러와 같은 공통 에러 처리를 진행할 수도 있으나, 에러 처리에 대한 부분은 요청을 발생한 문맥에서 적절하게 판단하여 처리하는 것이 맞다고 생각합니다. 이에 따라 여기에서는 에러에 대한 분류까지만 진행합니다.
+
+---
+
+## 에러 처리 분류하기
+위에서 정의한 에러에 따라 에러 처리 방법을 아래와 같이 정리하였습니다.
+
+### 사용자 원인
+에러의 원인이 사용자에게 있으므로, 적절한 피드백을 통해서 사용자가 성공한 응답을 받을 수 있도록 유도하여야 합니다.
+- 토스트 메시지
+- 모달 다이얼로그
+- 페이지 리디렉션
+- Fallback 컴포넌트로 대체
+- 유효성 검사 에러메시지
+
+### 클라이언트, 서버 원인
+에러의 원인이 사용자에게 있지 않으므로 사용자가 성공한 응답을 받기 위해서는 클라이언트 및 서버의 디버깅, 환경 등에 대한 적절한 조치가 필요합니다. 정상적인 상황에서 발생하지 않아야 하는 에러일 확률이 높습니다.
+- 토스트 메시지
+- 페이지 리디렉션
+- Fallback 컴포넌트로 대체
+- 에러 로깅
+
+---
+
+## 공통 에러 처리하기
+앞에서도 여러번 말했지만, 에러 처리에 대한 방법은 기획 의도와 사용자가 처한 문맥에 따라 매우 다양하고 변경될 여지가 많습니다. 따라서 여기에서는 일반적으로 처리하는 공통 에러 처리 방법에 대해서만 정리하도록 하겠습니다.
+
+이번에는 서버와의 통신 방법에 따라 공통 에러를 어디에서 처리할 것인지 달라집니다. 여기에서 포인트는 어떻게 처리하느냐 보다도 "어디에서" 처리하느냐 입니다.
+
+### Query (DisplayBoundary)
+데이터를 조회(Query)하는 것과 관련된 통신들에 대해서 처리합니다. 주로 HTTP GET 요청입니다. 페이지에 접근하거나, 데이터를 검색하는 등의 행위를 통해 서버 요청이 발생합니다. 따라서 401(인증에러)를 제외하고는 에러의 원인이 사용자보다는 클라이언트나 서버에 있을 확률이 높습니다.
+
+표시해야할 데이터를 적절히 가져오지 못 했다고, 빈 화면을 보여주는 것 보다는 현재의 상태를 나타낼 수 있는 다른 컴포넌트로 대체하여 보여주는 것이 좋습니다. 
+
+React 18의 동시성 모드의 도입으로 사용자에게 더 적절한 화면을 보여주어 사용성을 높일 수 있는데요. 여기에서는 `Suspense`와 `ErrorBoundary`를 통합한 `DisplayBoundary`를 제안합니다. `DisplayBoundary`는 두가지의 대체 컴포넌트를 포함하는데요. 첫째로 데이터를 불러오는 중일 때, 빈 화면 대신 Spinner나 Skeleton 같은 UI를 보여줄 수 있습니다. 두번째로 에러 발생 시 적절한 콘텐츠를 보여주지 못할 때 에러에 관한 대체 화면을 보여줄 수 있습니다.
+
+또한 대체 컴포넌트로 렌더링하는 것 외의 에러 처리도 해당 로직 안에서 중앙집중화하여 처리할 수 있는 장점도 있습니다.
+
+```tsx
+interface DisplayBoundaryProps {
+  loader?: ReactNode
+  children: ReactNode
+}
+
+function FallbackComponent({ resetErrorBoundary, error }: FallbackProps) {
+  const [message, setMessage] = useState<string>()
+
+  useEffect(() => {
+    // HttpError이면 에러로그를 발생시킨다.
+    // 에러메시지가 있다면 Fallback에 표시한다.
+    if (isHttpError<ErrorDetail>(error)) {
+      error.printAll()
+      setMessage(error.detail?.message)
+    }
+
+    // 에러로깅이 필요하다면 해당 영역에서
+    // 추가적인 작업을 할 수 있습니다.
+  }, [error])
+
+  return (
+    {/* 메시지를 전달하면 해당 메시지를 보여주는 컴포넌트 */}
+    <DisplayError message={message}>
+      {/* 버튼을 클릭하여 GET 요청을 재시도하며, 현재 Fallback을 빠져나온다. */}
+      <Button onClick={resetErrorBoundary}>다시 시도하기</Button>
+    </DisplayError>
+  )
+}
+
+export default function DisplayBoundary({ loader, children }: DisplayBoundaryProps) {
+  const { reset } = useQueryErrorResetBoundary()
+
+  return (
+    <ErrorBoundary FallbackComponent={FallbackComponent} onReset={reset}>
+      {/* 로딩과 함께 세트로 구성하는 것도 좋은 방법이다. */}
+      <Suspense fallback={loader}>{children}</Suspense>
+    </ErrorBoundary>
+  )
+}
+
+```
+
+위의 예제에서는 (react-error-boundary)[https://www.npmjs.com/package/react-error-boundary]를 사용하였지만, (공식문서의 ErrorBoundary)[https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary]를 직접 구현하여 적용하셔도 동일합니다.
+
+<br/>
+
+### Mutation (Mutation Cache)
+데이터를 조작(Mutation)하는 것과 관련된 통신들에 대해서 처리합니다. 주로 HTTP POST, PUT, PATCH, DELETE 요청입니다. Mutation 에러도 throw 하여 위의 `DisplayBoundary`에서 처리해도 되지 않을까 생각하실 수 있습니다. 
+
+물론 정답은 없습니다! 그러나 주로 해당 에러의 원인은 사용자에게 있을 확률이 높습니다. 이에 따라 사용자가 행위의 변경을 통해서 즉각적으로 성공 응답으로 유도할 수 있습니다. 따라서 에러가 발생했다고 바로 Fallback으로 대체하는 것 보다는 메시지를 통해서 사용자 행동의 교정을 시키는 것이 더 좋은 사용자 경험이 될 수 있습니다.
+
+예제에서는 Mutation 요청을 TanStack Query의 `useMutation`을 사용하고 있다고 가정하였습니다. Mutation 에러가 발생하면 토스트메시지를 보여주는 공통 에러 처리를 구현하였습니다. 공통 에러는 (`TanStack Query`의 `MutationCache`)[https://tanstack.com/query/v5/docs/reference/MutationCache]를 활용합니다.
+
+```tsx
+export default function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      // useMutation의 onError 사이드이펙트의 기본설정입니다.
+      // useMutation을 정의한 곳에서 override 할 수 있습니다.
+      // 발생한 에러 정보를 콘솔에 보여줍니다.
+      mutations: {
+        onError(error) {
+          if (isHttpError(error)) {
+            error.printAll()
+          }
+        },
+      },
+    },
+    mutationCache: new MutationCache({
+      onError(error, vars, ctx, mutation) {
+        if (isHttpError<ErrorDetail>(error)) {
+          // meta 정보의 에러메시지나
+          // 발생한 에러에 따른 메시지를
+          // 토스트 메시지로 보여줍니다.
+          Toast.error(
+            mutation.meta?.errorMessage || 
+            error.detail?.message || 
+            '예상치 못한 에러가 발생했어요.'
+          )
+        }
+      },
+    }),
+  })
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* children */}
+    </QueryClientProvider>
+  )
+}
+```
+
+MutationCache와 Meta 정보를 활용하여 공통에러를 처리하는 내용은 (TanStack Query의 Mutation Cache와 meta 활용하기)[https://mitchell-up.github.io/mitchell-dictionary/blog/mutation-cache]에서 자세하게 살펴볼 수 있습니다.
+
+### Boundary 에러처리 위임하기 (GlobalErrorBoundary)
+Query 요청과 Mutation 요청에 따른 공통 에러처리를 다뤘습니다. 그러나 예기치 못한 에러나 로직 안에서 적절하게 처리하기 애매한 에러들의 대한 처리가 필요할 수 있는데요.
+
+```js
+<Root>
+  <DisplayBoundary>
+    {/* 에러가 발생하나, 해당 바운더리 안에서 처리하기 애매합니다. */}
+    <SomePage />
+  </DisplayBoundary>
+  <DisplayBoundary>
+    <SomePage />
+  </DisplayBoundary>
+</Root>
+```
+
+이 때 App의 Root 레벨에 `GlobalErrorBoundary`를 배치하고 에러를 최초로 `catch`한 `Boundary`에서 다시 `throw` 하여 에러처리의 권한을 넘겨 처리할 수 있도록 합니다.
+
+```js
+<Root>
+  {/* 내부 Boundary에서 재 throw 된 에러를 처리합니다. */}
+  <GlobalErrorBoundary>
+    <DisplayBoundary>
+      <SomePage />
+    </DisplayBoundary>
+    <DisplayBoundary>
+      <SomePage />
+    </DisplayBoundary>
+  </GlobalErrorBoundary>
+</Root>
+```
+
+이렇게 상위 `ErrorBounary`로 에러 처리를 위임하여 각 구간에서 에러 처리에 대한 관심사를 분리하고, 선언적으로 처리할 수 있게 됩니다. 따라서 아래와 같이도 응용 가능합니다.
+
+```js
+<Root>
+  {/* 글로벌 공통 에러 처리를 담당 */}
+  <GlobalErrorBoundary>
+    {/* 어드민만 가능한 경계를 설정, 관련 에러 처리를 담당 */}
+    <OnlyAdminBoundary>
+      {/* Query 에러 처리를 담당 */}
+      <DisplayBoundary>
+        <SomePage />
+      </DisplayBoundary>
+    </OnlyAdminBoundary>
+
+    {/* Query 에러 처리를 담당 */}
+    <DisplayBoundary>
+      <SomePage />
+    </DisplayBoundary>
+  </GlobalErrorBoundary>
+</Root>
+```
+
+## 정리
+이 글에서 정리하고 있는 에러정의와 처리에 대한 방법들은 경험적으로 처리해보며 효과적이였다고 판단되는 내용들을 정리한 것입니다. 간단히 요약하게 아래의 세가지 기준점을 제시해드렸습니다.
+1. 어떤 에러인가 (에러정의)
+2. 어떻게 처리할 것인가 (토스트메시지, 모달 등)
+3. 어디에서 처리할 것인가 (Boundary, Axios Interceptor, Mutation Cache)
+
+개발중인 프로젝트의 내용과 기획에 따라서, 내부적으로 협의되는 내용과 서버와의 프로토콜 등에 따라서 에러를 정리하고 처리하는 방법은 매우 다양하게 진행될 수 있습니다. 그러나 에러 처리에 대해 규정하고 정리가 필요할 때 위에 제시해드린 세가지 기준을 근거로부터 시작하면 효과적으로 시스템에 맞는 에러를 처리 방식을 만드는데 도움이 될 수 있을거라 생각합니다.
