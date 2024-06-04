@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[2406],{5833:l=>{l.exports=JSON.parse('{"label":"hook","permalink":"/mitchell-dictionary/blog/tags/hook","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
