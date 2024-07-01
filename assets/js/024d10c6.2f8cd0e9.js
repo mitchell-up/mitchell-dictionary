@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[8643],{1894:t=>{t.exports=JSON.parse('{"label":"useMutation","permalink":"/mitchell-dictionary/blog/tags/use-mutation","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[510],{493:t=>{t.exports=JSON.parse('{"label":"MutationCache","permalink":"/mitchell-dictionary/blog/tags/mutation-cache","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
