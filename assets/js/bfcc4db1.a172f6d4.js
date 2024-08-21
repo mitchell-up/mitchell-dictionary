@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[4217],{2768:a=>{a.exports=JSON.parse('{"label":"TanStack Query","permalink":"/mitchell-dictionary/blog/tags/tan-stack-query","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[8144],{3345:l=>{l.exports=JSON.parse('{"label":"ErrorBoundary","permalink":"/mitchell-dictionary/blog/tags/error-boundary","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);

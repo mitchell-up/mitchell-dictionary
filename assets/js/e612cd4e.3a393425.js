@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[1224],{8862:t=>{t.exports=JSON.parse('{"permalink":"/mitchell-dictionary/blog/tags/\ube44\ub3d9\uae30\uc5d0\ub7ec","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

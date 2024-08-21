@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmitchell_dictionary=self.webpackChunkmitchell_dictionary||[]).push([[715],{9272:l=>{l.exports=JSON.parse('{"label":"\ube44\ub3d9\uae30\uc5d0\ub7ec","permalink":"/mitchell-dictionary/blog/tags/\ube44\ub3d9\uae30\uc5d0\ub7ec","allTagsPath":"/mitchell-dictionary/blog/tags","count":1,"unlisted":false}')}}]);
